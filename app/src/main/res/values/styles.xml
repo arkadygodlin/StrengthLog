@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="card.native.header_button_base.other">
+        <item name="android:background">@drawable/ic_add_black_36dp</item>
+    </style>
+</resources>
