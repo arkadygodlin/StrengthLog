@@ -159,6 +159,9 @@ public class ForumFragment extends Fragment
     if (viewsContainer.workout.getText().toString().equals(empty)){
       return false;
     }
+    if (viewsContainer.exercise.getText().toString().equals(empty)){
+      return false;
+    }
     if (viewsContainer.date.getText().toString().equals(empty)){
       return false;
     }
@@ -178,6 +181,7 @@ public class ForumFragment extends Fragment
     LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
     entryHolder.program = viewsContainer.program.getText().toString();
     entryHolder.workout = viewsContainer.workout.getText().toString();
+    entryHolder.exercise = viewsContainer.exercise.getText().toString();
     entryHolder.date = viewsContainer.date.getText().toString();
     entryHolder.weight = Float.parseFloat(viewsContainer.weight.getText().toString());
     entryHolder.reps = Integer.parseInt(viewsContainer.reps.getText().toString());
@@ -194,6 +198,7 @@ public class ForumFragment extends Fragment
   private class ViewsContainer{
     public EditText program;
     public EditText workout;
+    public EditText exercise;
     public EditText date;
     public EditText weight;
     public EditText reps;
@@ -203,6 +208,7 @@ public class ForumFragment extends Fragment
     public ViewsContainer(View view){
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
+      exercise = (EditText) view.findViewById(R.id.exercise);
       date = (EditText) view.findViewById(R.id.date);
       weight = (EditText) view.findViewById(R.id.weight);
       reps = (EditText) view.findViewById(R.id.reps);

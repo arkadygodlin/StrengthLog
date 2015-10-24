@@ -54,6 +54,7 @@ public class DbHelper extends SQLiteOpenHelper
     values.put(LogContract.LogEntry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(LogContract.LogEntry.COLUMN_NAME_PROGRAM, item.program);
     values.put(LogContract.LogEntry.COLUMN_NAME_WORKOUT, item.workout);
+    values.put(LogContract.LogEntry.COLUMN_NAME_EXERCISE, item.exercise);
     values.put(LogContract.LogEntry.COLUMN_NAME_DATE, item.date);
     values.put(LogContract.LogEntry.COLUMN_NAME_WEIGHT, item.weight);
     values.put(LogContract.LogEntry.COLUMN_NAME_REPS, item.reps);

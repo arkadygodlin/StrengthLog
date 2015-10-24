@@ -10,6 +10,7 @@
 
     <string name="forum_program_hint">program</string>
     <string name="forum_workout_hint">workout</string>
+    <string name="forum_exercise_hint">exercise</string>
     <string name="forum_date_hint">date</string>
     <string name="forum_weight_hint">weight</string>
     <string name="forum_reps_hint">reps</string>
