@@ -3,6 +3,7 @@ package com.strengthlog;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -11,7 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks
+public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+  ForumFragment.OnFragmentInteractionListener
 {
 
   /**
@@ -48,7 +50,7 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
         mTitle = getString(R.string.title_section0);
         break;
       case 1:
-        newFragment = PlaceholderFragment.newInstance(0);
+        newFragment = ForumFragment.newInstance("", "");
         mTitle = getString(R.string.title_section1);
         break;
       default:
@@ -59,9 +61,6 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 
   public void onSectionAttached(int number)
   {
-
-    //TODO remove this, it doesn't do shit, used only in DUMMY FRAGMNET
-
     switch (number)
     {
       case 0:
@@ -95,6 +94,12 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onFragmentInteraction(Uri uri)
+  {
+    //TODO: impl this
   }
 
   /**

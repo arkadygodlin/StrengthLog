@@ -1,0 +1,68 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.strengthlog.ForumFragment">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:orientation="vertical" >
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"/>
+    <EditText
+        android:id="@+id/program"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_program_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/workout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_workout_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_date_hint"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_weight_hint"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/reps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_reps_hint"
+        android:inputType="numberSigned" />
+
+    <EditText
+        android:id="@+id/sets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_sets_hint"
+        android:inputType="numberSigned" />
+
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/forum_commnet_hint"
+        android:inputType="text" />
+</LinearLayout>
+</FrameLayout>

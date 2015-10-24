@@ -5,4 +5,19 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="forum_program_hint">program</string>
+    <string name="forum_workout_hint">workout</string>
+    <string name="forum_date_hint">date</string>
+    <string name="forum_weight_hint">weight</string>
+    <string name="forum_reps_hint">reps</string>
+    <string name="forum_sets_hint">sets</string>
+    <string name="forum_commnet_hint">comment</string>
+
+
+    <string name="accept">accept</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
