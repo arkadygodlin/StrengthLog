@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.sql.LogContract;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +35,7 @@ public class ForumFragment extends Fragment
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
-
+  private ViewsContainer viewsContainer;
   private OnFragmentInteractionListener mListener;
 
   /**
@@ -75,7 +78,9 @@ public class ForumFragment extends Fragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_forum, container, false);
+    View view = inflater.inflate(R.layout.fragment_forum, container, false);
+    viewsContainer = new ViewsContainer(view);
+    return view;
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -138,20 +143,72 @@ public class ForumFragment extends Fragment
     int id = item.getItemId();
 
     if (id == R.id.action_accept) {
-      validateInput();
+      if (validateInput()){
+        saveInput();
+      }
     }
 
     return super.onOptionsItemSelected(item);
   }
 
   private boolean validateInput(){
-    EditText program = (EditText) getActivity().findViewById(R.id.program);
-    EditText workout = (EditText) getActivity().findViewById(R.id.workout);
+    String empty = "";
+    if (viewsContainer.program.getText().toString().equals(empty)){
+      return false;
+    }
+    if (viewsContainer.workout.getText().toString().equals(empty)){
+      return false;
+    }
+    if (viewsContainer.date.getText().toString().equals(empty)){
+      return false;
+    }
+    if (viewsContainer.weight.getText().toString().equals(empty)){
+      return false;
+    }
+    if (viewsContainer.reps.getText().toString().equals(empty)){
+      return false;
+    }
+    if (viewsContainer.sets.getText().toString().equals(empty)){
+      return false;
+    }
     return true;
   }
 
   private void saveInput(){
+    LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
+    entryHolder.program = viewsContainer.program.getText().toString();
+    entryHolder.workout = viewsContainer.workout.getText().toString();
+    entryHolder.date = viewsContainer.date.getText().toString();
+    entryHolder.weight = Float.parseFloat(viewsContainer.weight.getText().toString());
+    entryHolder.reps = Integer.parseInt(viewsContainer.reps.getText().toString());
+    entryHolder.sets = Integer.parseInt(viewsContainer.sets.getText().toString());
+    entryHolder.comment = viewsContainer.comment.getText().toString();
+    saveInputToDb(entryHolder);
+  }
 
+  private void saveInputToDb(LogContract.EntryHolder entryHolder){
+    DbHelper db = new DbHelper(getActivity());
+    db.insertLog(entryHolder);
+  }
+
+  private class ViewsContainer{
+    public EditText program;
+    public EditText workout;
+    public EditText date;
+    public EditText weight;
+    public EditText reps;
+    public EditText sets;
+    public EditText comment;
+
+    public ViewsContainer(View view){
+      program = (EditText) view.findViewById(R.id.program);
+      workout = (EditText) view.findViewById(R.id.workout);
+      date = (EditText) view.findViewById(R.id.date);
+      weight = (EditText) view.findViewById(R.id.weight);
+      reps = (EditText) view.findViewById(R.id.reps);
+      sets = (EditText) view.findViewById(R.id.sets);
+      comment = (EditText) view.findViewById(R.id.comment);
+    }
   }
 
 }
