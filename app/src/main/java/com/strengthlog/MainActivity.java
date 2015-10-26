@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
-  ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener
+  ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener,
+  ProgramFragment.OnFragmentInteractionListener
 {
 
   /**
@@ -56,6 +57,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
       case 2:
         newFragment = LogHistoryFragment.newInstance("", "");
         mTitle = getString(R.string.title_section2);
+        break;
+      case 3:
+        newFragment = ProgramFragment.newInstance("", "");
+        mTitle = getString(R.string.title_section3);
         break;
       default:
     }

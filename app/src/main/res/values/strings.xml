@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">StrengthLog</string>
     <string name="title_section0">Home</string>
-    <string name="title_section1">My Program</string>
+    <string name="title_section1">Add Exercise</string>
     <string name="title_section2">Log History</string>
+    <string name="title_section3">Add Program</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

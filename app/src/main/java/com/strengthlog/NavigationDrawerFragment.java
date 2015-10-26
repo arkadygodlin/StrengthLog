@@ -109,7 +109,8 @@ public class NavigationDrawerFragment extends Fragment
   private String[] getTitles(){
     return new String[]{getString(R.string.title_section0),
                         getString(R.string.title_section1),
-                        getString(R.string.title_section2)};
+                        getString(R.string.title_section2),
+                        getString(R.string.title_section3)};
   }
 
   public boolean isDrawerOpen()
