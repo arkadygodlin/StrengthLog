@@ -6,7 +6,6 @@ import android.test.ApplicationTestCase;
 import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
-import com.strengthlog.db.sql.WorkoutContract;
 
 /**
  * Created by agodlin on 4/11/2015.
@@ -54,6 +53,7 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     ProgramContract.EntryHolder item = new ProgramContract.EntryHolder();
     item.program = "Texas";
     item.workout = "A";
+    item.exercise = "Bench";
     return item;
   }
 
@@ -63,19 +63,5 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     ProgramContract.EntryHolder item = getProgramItem();
     assertTrue(db.insertProgram(item) > 0);
     assertTrue(db.getProgramEntries().size() > 0);
-  }
-
-  private WorkoutContract.EntryHolder getWorkoutItem() {
-    WorkoutContract.EntryHolder item = new WorkoutContract.EntryHolder();
-    item.exercise = "Squat";
-    return item;
-  }
-
-  public void testWorkoutAdd() {
-    DbHelper db = new DbHelper(getContext());
-
-    WorkoutContract.EntryHolder item = getWorkoutItem();
-    assertTrue(db.insertWorkout(item) > 0);
-    assertTrue(db.getWorkoutEntries().size() > 0);
   }
 }

@@ -158,6 +158,9 @@ public class ProgramFragment extends Fragment
     if (viewsContainer.workout.getText().toString().equals(empty)){
       return false;
     }
+    if (viewsContainer.exercise.getText().toString().equals(empty)){
+      return false;
+    }
     return true;
   }
 
@@ -176,10 +179,12 @@ public class ProgramFragment extends Fragment
   private class ViewsContainer{
     public EditText program;
     public EditText workout;
+    public EditText exercise;
 
     public ViewsContainer(View view){
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
+      exercise = (EditText) view.findViewById(R.id.exercise);
     }
   }
 }

@@ -28,7 +28,6 @@ public class DbHelper extends SQLiteOpenHelper
   {
     db.execSQL(LogContract.SQL_CREATE_ENTRIES);
     db.execSQL(ProgramContract.SQL_CREATE_ENTRIES);
-    db.execSQL(WorkoutContract.SQL_CREATE_ENTRIES);
   }
 
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -37,7 +36,6 @@ public class DbHelper extends SQLiteOpenHelper
     // to simply to discard the data and start over
     db.execSQL(LogContract.SQL_DELETE_ENTRIES);
     db.execSQL(ProgramContract.SQL_DELETE_ENTRIES);
-    db.execSQL(WorkoutContract.SQL_DELETE_ENTRIES);
     onCreate(db);
   }
 
@@ -110,6 +108,7 @@ public class DbHelper extends SQLiteOpenHelper
     values.put(ProgramContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(ProgramContract.Entry.COLUMN_NAME_PROGRAM, item.program);
     values.put(ProgramContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
+    values.put(ProgramContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
     return db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
   }
 
@@ -133,42 +132,7 @@ public class DbHelper extends SQLiteOpenHelper
       item.key = cursor.getString(1);
       item.program = cursor.getString(2);
       item.workout = cursor.getString(3);
-      workoutData.add(item);
-    }
-
-    cursor.close();
-
-    return workoutData;
-  }
-
-  public long insertWorkout(WorkoutContract.EntryHolder item)
-  {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put(WorkoutContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
-    values.put(WorkoutContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
-    return db.insert(WorkoutContract.Entry.TABLE_NAME, null, values);
-  }
-
-  public List<WorkoutContract.EntryHolder> getWorkoutEntries()
-  {
-    List<WorkoutContract.EntryHolder> workoutData = new ArrayList<>();
-    SQLiteDatabase db = this.getReadableDatabase();
-
-    Cursor cursor = db.query(WorkoutContract.Entry.TABLE_NAME,  // The table to query
-      null,                                       // The columns to return
-      null,                                       // The columns for the WHERE clause
-      null,                                       // The values for the WHERE clause
-      null,                                       // don't group the rows
-      null,                                       // don't filter by row groups
-      null                                   // The sort order
-    );
-    WorkoutContract.EntryHolder item;
-    while (cursor.moveToNext())
-    {
-      item = new WorkoutContract.EntryHolder();
-      item.key = cursor.getString(1);
-      item.exercise = cursor.getString(2);
+      item.exercise = cursor.getString(4);
       workoutData.add(item);
     }
 
