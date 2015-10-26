@@ -14,6 +14,8 @@ import android.widget.EditText;
 
 import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.LogContract;
+import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.utils.Logger;
 
 
 /**
@@ -146,6 +148,9 @@ public class ForumFragment extends Fragment
       if (validateInput()){
         saveInput();
       }
+      else{
+        Logger.i("ForumFragment", "Input not Valid");
+      }
     }
 
     return super.onOptionsItemSelected(item);
@@ -174,14 +179,25 @@ public class ForumFragment extends Fragment
     if (viewsContainer.sets.getText().toString().equals(empty)){
       return false;
     }
-    return true;
+
+    ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
+    DbHelper db = new DbHelper(getActivity());
+    return db.isProgramExists(programEntryHolder);
+  }
+
+  private ProgramContract.EntryHolder createProgramEntryHolder(){
+    ProgramContract.EntryHolder programEntryHolder = new ProgramContract.EntryHolder();
+    programEntryHolder.program = viewsContainer.program.getText().toString();
+    programEntryHolder.workout = viewsContainer.workout.getText().toString();
+    programEntryHolder.exercise = viewsContainer.exercise.getText().toString();
+    return programEntryHolder;
   }
 
   private void saveInput(){
+    ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
+
     LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
-    entryHolder.program = viewsContainer.program.getText().toString();
-    entryHolder.workout = viewsContainer.workout.getText().toString();
-    entryHolder.exercise = viewsContainer.exercise.getText().toString();
+    entryHolder.key = String.valueOf(programEntryHolder.hashCode());
     entryHolder.date = viewsContainer.date.getText().toString();
     entryHolder.weight = Float.parseFloat(viewsContainer.weight.getText().toString());
     entryHolder.reps = Integer.parseInt(viewsContainer.reps.getText().toString());

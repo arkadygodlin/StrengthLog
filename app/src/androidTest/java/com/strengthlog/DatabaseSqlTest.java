@@ -30,9 +30,6 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
   private LogContract.EntryHolder getLogItem() {
     LogContract.EntryHolder item = new LogContract.EntryHolder();
-    item.program = "Texas";
-    item.workout = "A";
-    item.exercise = "bench";
     item.date = "22-10-2015";
     item.weight = 110;
     item.reps = 3;
@@ -63,5 +60,10 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     ProgramContract.EntryHolder item = getProgramItem();
     assertTrue(db.insertProgram(item) > 0);
     assertTrue(db.getProgramEntries().size() > 0);
+
+    assertTrue(db.isProgramExists(item));
+
+    item.exercise = "Squat";
+    assertFalse(db.isProgramExists(item));
   }
 }

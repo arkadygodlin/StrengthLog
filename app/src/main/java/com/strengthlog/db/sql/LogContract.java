@@ -17,9 +17,6 @@ public class LogContract {
             " (" +
             Entry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
             Entry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
-            Entry.COLUMN_NAME_PROGRAM + TEXT_TYPE + COMMA_SEP +
-            Entry.COLUMN_NAME_WORKOUT + TEXT_TYPE + COMMA_SEP +
-            Entry.COLUMN_NAME_EXERCISE + TEXT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_WEIGHT + FLOAT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_REPS + INT_TYPE + COMMA_SEP +
@@ -32,9 +29,6 @@ public class LogContract {
   public static abstract class Entry implements BaseColumns {
     public static final String TABLE_NAME = "log";
     public static final String COLUMN_NAME_ENTRY_ID = "entryid";
-    public static final String COLUMN_NAME_PROGRAM = "program";
-    public static final String COLUMN_NAME_WORKOUT = "workout";
-    public static final String COLUMN_NAME_EXERCISE = "exercise";
     public static final String COLUMN_NAME_DATE = "date";
     public static final String COLUMN_NAME_WEIGHT = "weight";
     public static final String COLUMN_NAME_REPS = "reps";
@@ -44,9 +38,6 @@ public class LogContract {
 
   public static class EntryHolder {
     public String key = "";
-    public String program = "";
-    public String workout = "";
-    public String exercise = "";
     public String date = "";
     public float weight = 0;
     public int reps = 0;
@@ -54,17 +45,19 @@ public class LogContract {
     public String comment = "";
     public EntryHolder(){}
 
-    public EntryHolder(int sets, String program, String workout, String exercise, String date, float weight,
+    public EntryHolder(int sets, String date, float weight,
                        int reps, String key, String comment) {
       this.sets = sets;
-      this.program = program;
-      this.workout = workout;
-      this.exercise = exercise;
       this.date = date;
       this.weight = weight;
       this.reps = reps;
       this.key = key;
       this.comment = comment;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("%s,%s,%fl,%d,%d,%s", key, date, weight, reps, sets, comment);
     }
   }
 }

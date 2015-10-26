@@ -28,7 +28,7 @@
             android:id="@+id/exercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/forum_workout_hint"
+            android:hint="@string/forum_exercise_hint"
             android:inputType="text" />
     </LinearLayout>
 

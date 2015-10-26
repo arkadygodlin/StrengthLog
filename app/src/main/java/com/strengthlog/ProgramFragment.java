@@ -168,6 +168,7 @@ public class ProgramFragment extends Fragment
     ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
     entryHolder.program = viewsContainer.program.getText().toString();
     entryHolder.workout = viewsContainer.workout.getText().toString();
+    entryHolder.exercise = viewsContainer.exercise.getText().toString();
     saveInputToDb(entryHolder);
   }
 

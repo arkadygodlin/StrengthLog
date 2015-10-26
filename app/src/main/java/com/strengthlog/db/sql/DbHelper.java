@@ -54,9 +54,6 @@ public class DbHelper extends SQLiteOpenHelper
   SQLiteDatabase db = this.getWritableDatabase();
   ContentValues values = new ContentValues();
   values.put(LogContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
-  values.put(LogContract.Entry.COLUMN_NAME_PROGRAM, item.program);
-  values.put(LogContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
-  values.put(LogContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
   values.put(LogContract.Entry.COLUMN_NAME_DATE, item.date);
   values.put(LogContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
   values.put(LogContract.Entry.COLUMN_NAME_REPS, item.reps);
@@ -86,13 +83,11 @@ public class DbHelper extends SQLiteOpenHelper
     {
       item = new LogContract.EntryHolder();
       item.key = cursor.getString(1);
-      item.program = cursor.getString(2);
-      item.workout = cursor.getString(3);
-      item.date = cursor.getString(4);
-      item.weight = cursor.getFloat(5);
-      item.reps = cursor.getInt(6);
-      item.sets = cursor.getInt(7);
-      item.comment = cursor.getString(8);
+      item.date = cursor.getString(2);
+      item.weight = cursor.getFloat(3);
+      item.reps = cursor.getInt(4);
+      item.sets = cursor.getInt(5);
+      item.comment = cursor.getString(6);
       workoutData.add(item);
     }
 
@@ -139,5 +134,28 @@ public class DbHelper extends SQLiteOpenHelper
     cursor.close();
 
     return workoutData;
+  }
+
+  public boolean isProgramExists(ProgramContract.EntryHolder item)
+  {
+    List<ProgramContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    String selection = ProgramContract.Entry.COLUMN_NAME_PROGRAM + " = ?" + " and " +
+                       ProgramContract.Entry.COLUMN_NAME_WORKOUT + " = ?" + " and " +
+                       ProgramContract.Entry.COLUMN_NAME_EXERCISE + " = ?";
+    String[] selectionArgs = {item.program, item.workout, item.exercise};
+
+    Cursor cursor = db.query(ProgramContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      selection,                                       // The columns for the WHERE clause
+      selectionArgs,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    boolean found = cursor.moveToNext();
+    cursor.close();
+    return found;
   }
 }

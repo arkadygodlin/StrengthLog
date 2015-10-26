@@ -39,7 +39,7 @@ public class DummyContent
     List<LogContract.EntryHolder> entryHolders = db.getAllEntryLogs();
     int i = 0;
     for(LogContract.EntryHolder entryHolder : entryHolders){
-      addItem(new DummyItem(i, entryHolder.program));
+      addItem(new DummyItem(i, entryHolder.toString()));
     }
   }
 
