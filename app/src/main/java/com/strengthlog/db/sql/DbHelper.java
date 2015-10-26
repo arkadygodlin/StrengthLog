@@ -27,6 +27,8 @@ public class DbHelper extends SQLiteOpenHelper
   public void onCreate(SQLiteDatabase db)
   {
     db.execSQL(LogContract.SQL_CREATE_ENTRIES);
+    db.execSQL(ProgramContract.SQL_CREATE_ENTRIES);
+    db.execSQL(WorkoutContract.SQL_CREATE_ENTRIES);
   }
 
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -34,6 +36,8 @@ public class DbHelper extends SQLiteOpenHelper
     // This database is only a cache for online data, so its upgrade policy is
     // to simply to discard the data and start over
     db.execSQL(LogContract.SQL_DELETE_ENTRIES);
+    db.execSQL(ProgramContract.SQL_DELETE_ENTRIES);
+    db.execSQL(WorkoutContract.SQL_DELETE_ENTRIES);
     onCreate(db);
   }
 
@@ -48,20 +52,20 @@ public class DbHelper extends SQLiteOpenHelper
   }
 
   public long insertLog(LogContract.EntryHolder item)
-  {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put(LogContract.LogEntry.COLUMN_NAME_ENTRY_ID, item.key);
-    values.put(LogContract.LogEntry.COLUMN_NAME_PROGRAM, item.program);
-    values.put(LogContract.LogEntry.COLUMN_NAME_WORKOUT, item.workout);
-    values.put(LogContract.LogEntry.COLUMN_NAME_EXERCISE, item.exercise);
-    values.put(LogContract.LogEntry.COLUMN_NAME_DATE, item.date);
-    values.put(LogContract.LogEntry.COLUMN_NAME_WEIGHT, item.weight);
-    values.put(LogContract.LogEntry.COLUMN_NAME_REPS, item.reps);
-    values.put(LogContract.LogEntry.COLUMN_NAME_SETS, item.sets);
-    values.put(LogContract.LogEntry.COLUMN_NAME_COMMENT, item.comment);
-    return db.insert(LogContract.LogEntry.TABLE_NAME, null, values);
-  }
+{
+  SQLiteDatabase db = this.getWritableDatabase();
+  ContentValues values = new ContentValues();
+  values.put(LogContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+  values.put(LogContract.Entry.COLUMN_NAME_PROGRAM, item.program);
+  values.put(LogContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
+  values.put(LogContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
+  values.put(LogContract.Entry.COLUMN_NAME_DATE, item.date);
+  values.put(LogContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
+  values.put(LogContract.Entry.COLUMN_NAME_REPS, item.reps);
+  values.put(LogContract.Entry.COLUMN_NAME_SETS, item.sets);
+  values.put(LogContract.Entry.COLUMN_NAME_COMMENT, item.comment);
+  return db.insert(LogContract.Entry.TABLE_NAME, null, values);
+}
 
   public List<LogContract.EntryHolder> getAllEntryLogs()
   {
@@ -69,9 +73,9 @@ public class DbHelper extends SQLiteOpenHelper
     SQLiteDatabase db = this.getReadableDatabase();
 
     // How you want the results sorted in the resulting Cursor
-    String sortOrder = LogContract.LogEntry.COLUMN_NAME_DATE + " DESC";
+    String sortOrder = LogContract.Entry.COLUMN_NAME_DATE + " DESC";
 
-    Cursor cursor = db.query(LogContract.LogEntry.TABLE_NAME,  // The table to query
+    Cursor cursor = db.query(LogContract.Entry.TABLE_NAME,  // The table to query
       null,                                       // The columns to return
       null,                                       // The columns for the WHERE clause
       null,                                       // The values for the WHERE clause
@@ -91,6 +95,80 @@ public class DbHelper extends SQLiteOpenHelper
       item.reps = cursor.getInt(6);
       item.sets = cursor.getInt(7);
       item.comment = cursor.getString(8);
+      workoutData.add(item);
+    }
+
+    cursor.close();
+
+    return workoutData;
+  }
+
+  public long insertProgram(ProgramContract.EntryHolder item)
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(ProgramContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(ProgramContract.Entry.COLUMN_NAME_PROGRAM, item.program);
+    values.put(ProgramContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
+    return db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
+  }
+
+  public List<ProgramContract.EntryHolder> getProgramEntries()
+  {
+    List<ProgramContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(ProgramContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      null,                                       // The columns for the WHERE clause
+      null,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    ProgramContract.EntryHolder item;
+    while (cursor.moveToNext())
+    {
+      item = new ProgramContract.EntryHolder();
+      item.key = cursor.getString(1);
+      item.program = cursor.getString(2);
+      item.workout = cursor.getString(3);
+      workoutData.add(item);
+    }
+
+    cursor.close();
+
+    return workoutData;
+  }
+
+  public long insertWorkout(WorkoutContract.EntryHolder item)
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(WorkoutContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(WorkoutContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
+    return db.insert(WorkoutContract.Entry.TABLE_NAME, null, values);
+  }
+
+  public List<WorkoutContract.EntryHolder> getWorkoutEntries()
+  {
+    List<WorkoutContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(WorkoutContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      null,                                       // The columns for the WHERE clause
+      null,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    WorkoutContract.EntryHolder item;
+    while (cursor.moveToNext())
+    {
+      item = new WorkoutContract.EntryHolder();
+      item.key = cursor.getString(1);
+      item.exercise = cursor.getString(2);
       workoutData.add(item);
     }
 

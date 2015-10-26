@@ -13,23 +13,23 @@ public class LogContract {
   private static final String COMMA_SEP = ",";
 
   public static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + LogEntry.TABLE_NAME +
+            "CREATE TABLE " + Entry.TABLE_NAME +
             " (" +
-            LogEntry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-            LogEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_PROGRAM + TEXT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_WORKOUT + TEXT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_EXERCISE + TEXT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_WEIGHT + FLOAT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_REPS + INT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_SETS + INT_TYPE + COMMA_SEP +
-            LogEntry.COLUMN_NAME_COMMENT + TEXT_TYPE +
+            Entry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+            Entry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_PROGRAM + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_WORKOUT + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_EXERCISE + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_WEIGHT + FLOAT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_REPS + INT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_SETS + INT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_COMMENT + TEXT_TYPE +
             " )";
 
-  public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + LogEntry.TABLE_NAME;
+  public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Entry.TABLE_NAME;
 
-  public static abstract class LogEntry implements BaseColumns {
+  public static abstract class Entry implements BaseColumns {
     public static final String TABLE_NAME = "log";
     public static final String COLUMN_NAME_ENTRY_ID = "entryid";
     public static final String COLUMN_NAME_PROGRAM = "program";
