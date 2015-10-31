@@ -42,5 +42,10 @@ public class ProgramContract {
       return result;
     }
 
+    @Override
+    public String toString() {
+      return String.format("%s,%s,%s,%s", key, program, workout, exercise);
+    }
+
   }
 }

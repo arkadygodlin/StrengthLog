@@ -81,7 +81,7 @@ public class LogHistoryFragment extends Fragment implements AbsListView.OnItemCl
     // TODO: Change Adapter to display your content
 
 
-    DummyContent.initItems(getActivity());
+    DummyContent.initItems(getActivity(), mParam1);
     mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
   }
 

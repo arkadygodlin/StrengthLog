@@ -55,12 +55,16 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
         mTitle = getString(R.string.title_section1);
         break;
       case 2:
-        newFragment = LogHistoryFragment.newInstance("", "");
         mTitle = getString(R.string.title_section2);
+        newFragment = LogHistoryFragment.newInstance("", "");
         break;
       case 3:
-        newFragment = ProgramFragment.newInstance("", "");
         mTitle = getString(R.string.title_section3);
+        newFragment = LogHistoryFragment.newInstance("1", "");
+        break;
+      case 4:
+        newFragment = ProgramFragment.newInstance("", "");
+        mTitle = getString(R.string.title_section4);
         break;
       default:
     }

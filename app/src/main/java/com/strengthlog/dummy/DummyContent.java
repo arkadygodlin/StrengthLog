@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.LogContract;
+import com.strengthlog.db.sql.ProgramContract;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,17 +31,28 @@ public class DummyContent
   public static Map<Integer, DummyItem> ITEM_MAP = new HashMap<Integer, DummyItem>();
 
 
-  public static void initItems(Context context){
+  public static void initItems(Context context, String type){
     DbHelper db = new DbHelper(context);
 
     ITEM_MAP = new HashMap<Integer, DummyItem>();
     ITEMS = new ArrayList<DummyItem>();
 
-    List<LogContract.EntryHolder> entryHolders = db.getAllEntryLogs();
-    int i = 0;
-    for(LogContract.EntryHolder entryHolder : entryHolders){
-      addItem(new DummyItem(i, entryHolder.toString()));
+    if (type.isEmpty()){
+      List<LogContract.EntryHolder> entryHolders = db.getAllEntryLogs();
+      int i = 0;
+      for(LogContract.EntryHolder entryHolder : entryHolders){
+        addItem(new DummyItem(i, entryHolder.toString()));
+      }
     }
+    else{
+      List<ProgramContract.EntryHolder> entryHolders = db.getProgramEntries();
+      int i = 0;
+      for(ProgramContract.EntryHolder entryHolder : entryHolders){
+        addItem(new DummyItem(i, entryHolder.toString()));
+      }
+    }
+
+
   }
 
 //  static
