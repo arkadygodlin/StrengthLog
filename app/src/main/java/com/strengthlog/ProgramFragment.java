@@ -2,6 +2,7 @@ package com.strengthlog;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,9 +35,8 @@ public class ProgramFragment extends Fragment
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
-  private ViewsContainer viewsContainer;
   private OnFragmentInteractionListener mListener;
-
+  private ProgramFragmentController controller;
   /**
    * Use this factory method to create a new instance of
    * this fragment using the provided parameters.
@@ -78,7 +78,12 @@ public class ProgramFragment extends Fragment
   {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_program, container, false);
-    viewsContainer = new ViewsContainer(view);
+
+    ProgramFragmentModule module = new ProgramFragmentModule();
+    ProgramFragmentView v = new ProgramFragmentView(view);
+    controller = new ProgramFragmentController(v, module);
+    controller.setContext(getActivity());
+
     return view;
   }
 
@@ -142,50 +147,91 @@ public class ProgramFragment extends Fragment
     int id = item.getItemId();
 
     if (id == R.id.action_accept) {
-      if (validateInput()){
-        saveInput();
-      }
+      controller.acceptPressed();
     }
 
     return super.onOptionsItemSelected(item);
   }
 
-  private boolean validateInput(){
-    String empty = "";
-    if (viewsContainer.program.getText().toString().equals(empty)){
-      return false;
+  public static class ProgramFragmentController
+  {
+    Context context;
+    ProgramFragmentView view;
+    ProgramFragmentModule module;
+
+    public void setContext(Context context)
+    {
+      this.context = context;
     }
-    if (viewsContainer.workout.getText().toString().equals(empty)){
-      return false;
+
+    public void setModule(ProgramFragmentModule module)
+    {
+      this.module = module;
     }
-    if (viewsContainer.exercise.getText().toString().equals(empty)){
-      return false;
+
+    public void setView(ProgramFragmentView view)
+    {
+
+      this.view = view;
     }
-    return true;
+
+    public ProgramFragmentController(ProgramFragmentView view, ProgramFragmentModule module)
+    {
+      this.view = view;
+      this.module = module;
+    }
+
+    public void acceptPressed(){
+      if(validateInput()){
+        saveInput();
+      }
+    }
+
+    private boolean validateInput(){
+      String empty = "";
+      if (view.program.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.workout.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.exercise.getText().toString().equals(empty)){
+        return false;
+      }
+      return true;
+    }
+
+    private void saveInput(){
+      ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
+      entryHolder.program = view.program.getText().toString();
+      entryHolder.workout = view.workout.getText().toString();
+      entryHolder.exercise = view.exercise.getText().toString();
+      saveInputToDb(entryHolder);
+    }
+
+    private void saveInputToDb(ProgramContract.EntryHolder entryHolder){
+      DbHelper db = new DbHelper(context);
+      db.insertProgram(entryHolder);
+    }
   }
 
-  private void saveInput(){
-    ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
-    entryHolder.program = viewsContainer.program.getText().toString();
-    entryHolder.workout = viewsContainer.workout.getText().toString();
-    entryHolder.exercise = viewsContainer.exercise.getText().toString();
-    saveInputToDb(entryHolder);
+  public static class ProgramFragmentModule
+  {
   }
 
-  private void saveInputToDb(ProgramContract.EntryHolder entryHolder){
-    DbHelper db = new DbHelper(getActivity());
-    db.insertProgram(entryHolder);
-  }
-
-  private class ViewsContainer{
+  public static class ProgramFragmentView
+  {
+    private View view;
     public EditText program;
     public EditText workout;
     public EditText exercise;
 
-    public ViewsContainer(View view){
+    public ProgramFragmentView(View view){
+      this.view = view;
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
       exercise = (EditText) view.findViewById(R.id.exercise);
     }
   }
+
 }
