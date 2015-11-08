@@ -28,6 +28,7 @@ public class DbHelper extends SQLiteOpenHelper
   {
     db.execSQL(LogContract.SQL_CREATE_ENTRIES);
     db.execSQL(ProgramContract.SQL_CREATE_ENTRIES);
+    db.execSQL(ExerciseContract.SQL_CREATE_ENTRIES);
   }
 
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -36,6 +37,7 @@ public class DbHelper extends SQLiteOpenHelper
     // to simply to discard the data and start over
     db.execSQL(LogContract.SQL_DELETE_ENTRIES);
     db.execSQL(ProgramContract.SQL_DELETE_ENTRIES);
+    db.execSQL(ExerciseContract.SQL_DELETE_ENTRIES);
     onCreate(db);
   }
 
@@ -158,4 +160,41 @@ public class DbHelper extends SQLiteOpenHelper
     cursor.close();
     return found;
   }
+
+  public long insertExercise(ExerciseContract.EntryHolder item)
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(ExerciseContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(ExerciseContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
+    return db.insert(ExerciseContract.Entry.TABLE_NAME, null, values);
+  }
+
+  public List<ExerciseContract.EntryHolder> getExerciseEntries()
+  {
+    List<ExerciseContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(ExerciseContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      null,                                       // The columns for the WHERE clause
+      null,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    ExerciseContract.EntryHolder item;
+    while (cursor.moveToNext())
+    {
+      item = new ExerciseContract.EntryHolder();
+      item.key = cursor.getString(1);
+      item.exercise = cursor.getString(2);
+      workoutData.add(item);
+    }
+
+    cursor.close();
+
+    return workoutData;
+  }
+
 }

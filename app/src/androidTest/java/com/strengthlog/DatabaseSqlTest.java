@@ -4,6 +4,7 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 
 import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 
@@ -65,5 +66,19 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
     item.exercise = "Squat";
     assertFalse(db.isProgramExists(item));
+  }
+
+  public void testExercise(){
+    DbHelper db = new DbHelper(getContext());
+    ExerciseContract.EntryHolder item = new ExerciseContract.EntryHolder();
+    item.exercise = "Squat";
+
+    assertTrue(db.insertExercise(item) > 0);
+    assertTrue(db.getExerciseEntries().size() == 1);
+
+    item.exercise = "Bench";
+
+    assertTrue(db.insertExercise(item) > 0);
+    assertTrue(db.getExerciseEntries().size() == 2);
   }
 }
