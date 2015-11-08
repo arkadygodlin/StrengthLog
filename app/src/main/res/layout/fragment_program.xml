@@ -24,12 +24,11 @@
             android:hint="@string/forum_workout_hint"
             android:inputType="text" />
 
-        <EditText
+        <Spinner
             android:id="@+id/exercise"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/forum_exercise_hint"
-            android:inputType="text" />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </FrameLayout>

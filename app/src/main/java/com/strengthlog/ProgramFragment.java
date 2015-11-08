@@ -11,10 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.dummy.DummyContent;
 
 
 /**
@@ -70,6 +73,7 @@ public class ProgramFragment extends Fragment
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+
     setHasOptionsMenu(true);
   }
 
@@ -83,6 +87,17 @@ public class ProgramFragment extends Fragment
     FragmentView v = new FragmentView(view);
     controller = new FragmentController(v, module);
     controller.setContext(getActivity());
+
+
+    DummyContent.initItems(getActivity(), getString(R.string.title_section6));
+    Spinner spinner = (Spinner) view.findViewById(R.id.exercise);
+    // Create an ArrayAdapter using the string array and a default spinner layout
+
+    ArrayAdapter<DummyContent.DummyItem> adapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_spinner_item, DummyContent.ITEMS);
+    // Specify the layout to use when the list of choices appears
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    // Apply the adapter to the spinner
+    spinner.setAdapter(adapter);
 
     return view;
   }
@@ -195,7 +210,7 @@ public class ProgramFragment extends Fragment
       if (view.workout.getText().toString().equals(empty)){
         return false;
       }
-      if (view.exercise.getText().toString().equals(empty)){
+      if (view.exercise.getSelectedItem().toString().equals(empty)){
         return false;
       }
       return true;
@@ -205,7 +220,7 @@ public class ProgramFragment extends Fragment
       ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
       entryHolder.program = view.program.getText().toString();
       entryHolder.workout = view.workout.getText().toString();
-      entryHolder.exercise = view.exercise.getText().toString();
+      entryHolder.exercise = view.exercise.getSelectedItem().toString();
       saveInputToDb(entryHolder);
     }
 
@@ -224,13 +239,13 @@ public class ProgramFragment extends Fragment
     private View view;
     public EditText program;
     public EditText workout;
-    public EditText exercise;
+    public Spinner exercise;
 
     public FragmentView(View view){
       this.view = view;
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
-      exercise = (EditText) view.findViewById(R.id.exercise);
+      exercise = (Spinner) view.findViewById(R.id.exercise);
     }
   }
 
