@@ -14,23 +14,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.strengthlog.db.sql.DbHelper;
-import com.strengthlog.db.sql.LogContract;
-import com.strengthlog.db.sql.ProgramContract;
-
+import com.strengthlog.db.sql.ExerciseContract;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ForumFragment.OnFragmentInteractionListener} interface
+ * {@link ExerciseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ForumFragment#newInstance} factory method to
+ * Use the {@link ExerciseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-//TODO: Rename fragment to better describe.
-public class ForumFragment extends Fragment
+public class ExerciseFragment extends Fragment
 {
-  private static String tag = ForumFragment.class.getSimpleName();
-
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
@@ -39,6 +34,7 @@ public class ForumFragment extends Fragment
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
+
   private OnFragmentInteractionListener mListener;
   private FragmentController controller;
   /**
@@ -47,12 +43,12 @@ public class ForumFragment extends Fragment
    *
    * @param param1 Parameter 1.
    * @param param2 Parameter 2.
-   * @return A new instance of fragment ForumFragment.
+   * @return A new instance of fragment ExerciseFragment.
    */
   // TODO: Rename and change types and number of parameters
-  public static ForumFragment newInstance(String param1, String param2)
+  public static ExerciseFragment newInstance(String param1, String param2)
   {
-    ForumFragment fragment = new ForumFragment();
+    ExerciseFragment fragment = new ExerciseFragment();
     Bundle args = new Bundle();
     args.putString(ARG_PARAM1, param1);
     args.putString(ARG_PARAM2, param2);
@@ -60,7 +56,7 @@ public class ForumFragment extends Fragment
     return fragment;
   }
 
-  public ForumFragment()
+  public ExerciseFragment()
   {
     // Required empty public constructor
   }
@@ -81,11 +77,13 @@ public class ForumFragment extends Fragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_forum, container, false);
-    FragmentView v = new FragmentView(view);
+    View view = inflater.inflate(R.layout.fragment_exercise, container, false);
+
     FragmentModule module = new FragmentModule();
+    FragmentView v = new FragmentView(view);
     controller = new FragmentController(v, module);
     controller.setContext(getActivity());
+
     return view;
   }
 
@@ -191,58 +189,21 @@ public class ForumFragment extends Fragment
 
     private boolean validateInput(){
       String empty = "";
-      if (view.program.getText().toString().equals(empty)){
-        return false;
-      }
-      if (view.workout.getText().toString().equals(empty)){
-        return false;
-      }
       if (view.exercise.getText().toString().equals(empty)){
         return false;
       }
-      if (view.date.getText().toString().equals(empty)){
-        return false;
-      }
-      if (view.weight.getText().toString().equals(empty)){
-        return false;
-      }
-      if (view.reps.getText().toString().equals(empty)){
-        return false;
-      }
-      if (view.sets.getText().toString().equals(empty)){
-        return false;
-      }
-
-      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-      DbHelper db = new DbHelper(context);
-      boolean reVal = db.isProgramExists(programEntryHolder);
-      return reVal;
-    }
-
-    private ProgramContract.EntryHolder createProgramEntryHolder(){
-      ProgramContract.EntryHolder programEntryHolder = new ProgramContract.EntryHolder();
-      programEntryHolder.program = view.program.getText().toString();
-      programEntryHolder.workout = view.workout.getText().toString();
-      programEntryHolder.exercise = view.exercise.getText().toString();
-      return programEntryHolder;
+      return true;
     }
 
     private void saveInput(){
-      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-
-      LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
-      entryHolder.key = String.valueOf(programEntryHolder.hashCode());
-      entryHolder.date = view.date.getText().toString();
-      entryHolder.weight = Float.parseFloat(view.weight.getText().toString());
-      entryHolder.reps = Integer.parseInt(view.reps.getText().toString());
-      entryHolder.sets = Integer.parseInt(view.sets.getText().toString());
-      entryHolder.comment = view.comment.getText().toString();
+      ExerciseContract.EntryHolder entryHolder = new ExerciseContract.EntryHolder();
+      entryHolder.exercise = view.exercise.getText().toString();
       saveInputToDb(entryHolder);
     }
 
-    private void saveInputToDb(LogContract.EntryHolder entryHolder){
+    private void saveInputToDb(ExerciseContract.EntryHolder entryHolder){
       DbHelper db = new DbHelper(context);
-      db.insertLog(entryHolder);
+      db.insertExercise(entryHolder);
     }
   }
 
@@ -253,25 +214,11 @@ public class ForumFragment extends Fragment
   public static class FragmentView
   {
     private View view;
-    public EditText program;
-    public EditText workout;
     public EditText exercise;
-    public EditText date;
-    public EditText weight;
-    public EditText reps;
-    public EditText sets;
-    public EditText comment;
 
     public FragmentView(View view){
       this.view = view;
-      program = (EditText) view.findViewById(R.id.program);
-      workout = (EditText) view.findViewById(R.id.workout);
       exercise = (EditText) view.findViewById(R.id.exercise);
-      date = (EditText) view.findViewById(R.id.date);
-      weight = (EditText) view.findViewById(R.id.weight);
-      reps = (EditText) view.findViewById(R.id.reps);
-      sets = (EditText) view.findViewById(R.id.sets);
-      comment = (EditText) view.findViewById(R.id.comment);
     }
   }
 

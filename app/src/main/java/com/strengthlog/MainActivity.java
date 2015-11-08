@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
   ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener,
-  ProgramFragment.OnFragmentInteractionListener
+  ProgramFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener
 {
 
   /**
@@ -56,15 +56,23 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
         break;
       case 2:
         mTitle = getString(R.string.title_section2);
-        newFragment = LogHistoryFragment.newInstance("", "");
+        newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
         break;
       case 3:
         mTitle = getString(R.string.title_section3);
-        newFragment = LogHistoryFragment.newInstance("1", "");
+        newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
         break;
       case 4:
         newFragment = ProgramFragment.newInstance("", "");
         mTitle = getString(R.string.title_section4);
+        break;
+      case 5:
+        newFragment = ExerciseFragment.newInstance("", "");
+        mTitle = getString(R.string.title_section5);
+        break;
+      case 6:
+        mTitle = getString(R.string.title_section6);
+        newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
         break;
       default:
     }

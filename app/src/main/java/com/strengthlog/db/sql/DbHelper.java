@@ -61,7 +61,9 @@ public class DbHelper extends SQLiteOpenHelper
   values.put(LogContract.Entry.COLUMN_NAME_REPS, item.reps);
   values.put(LogContract.Entry.COLUMN_NAME_SETS, item.sets);
   values.put(LogContract.Entry.COLUMN_NAME_COMMENT, item.comment);
-  return db.insert(LogContract.Entry.TABLE_NAME, null, values);
+  long retVal = db.insert(LogContract.Entry.TABLE_NAME, null, values);
+  db.close();
+  return retVal;
 }
 
   public List<LogContract.EntryHolder> getAllEntryLogs()
@@ -94,7 +96,7 @@ public class DbHelper extends SQLiteOpenHelper
     }
 
     cursor.close();
-
+    db.close();
     return workoutData;
   }
 
@@ -106,7 +108,9 @@ public class DbHelper extends SQLiteOpenHelper
     values.put(ProgramContract.Entry.COLUMN_NAME_PROGRAM, item.program);
     values.put(ProgramContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
     values.put(ProgramContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
-    return db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
+    long retVal = db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
+    db.close();
+    return retVal;
   }
 
   public List<ProgramContract.EntryHolder> getProgramEntries()
@@ -134,7 +138,7 @@ public class DbHelper extends SQLiteOpenHelper
     }
 
     cursor.close();
-
+    db.close();
     return workoutData;
   }
 
@@ -158,6 +162,7 @@ public class DbHelper extends SQLiteOpenHelper
     );
     boolean found = cursor.moveToNext();
     cursor.close();
+    db.close();
     return found;
   }
 
@@ -167,7 +172,9 @@ public class DbHelper extends SQLiteOpenHelper
     ContentValues values = new ContentValues();
     values.put(ExerciseContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(ExerciseContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
-    return db.insert(ExerciseContract.Entry.TABLE_NAME, null, values);
+    long retVal = db.insert(ExerciseContract.Entry.TABLE_NAME, null, values);
+    db.close();
+    return retVal;
   }
 
   public List<ExerciseContract.EntryHolder> getExerciseEntries()
@@ -193,7 +200,7 @@ public class DbHelper extends SQLiteOpenHelper
     }
 
     cursor.close();
-
+    db.close();
     return workoutData;
   }
 

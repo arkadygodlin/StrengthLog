@@ -36,7 +36,7 @@ public class ProgramFragment extends Fragment
   private String mParam1;
   private String mParam2;
   private OnFragmentInteractionListener mListener;
-  private ProgramFragmentController controller;
+  private FragmentController controller;
   /**
    * Use this factory method to create a new instance of
    * this fragment using the provided parameters.
@@ -79,9 +79,9 @@ public class ProgramFragment extends Fragment
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_program, container, false);
 
-    ProgramFragmentModule module = new ProgramFragmentModule();
-    ProgramFragmentView v = new ProgramFragmentView(view);
-    controller = new ProgramFragmentController(v, module);
+    FragmentModule module = new FragmentModule();
+    FragmentView v = new FragmentView(view);
+    controller = new FragmentController(v, module);
     controller.setContext(getActivity());
 
     return view;
@@ -134,7 +134,7 @@ public class ProgramFragment extends Fragment
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.forum_menu, menu);
+    inflater.inflate(R.menu.accept_menu, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
@@ -153,29 +153,29 @@ public class ProgramFragment extends Fragment
     return super.onOptionsItemSelected(item);
   }
 
-  public static class ProgramFragmentController
+  public static class FragmentController
   {
     Context context;
-    ProgramFragmentView view;
-    ProgramFragmentModule module;
+    FragmentView view;
+    FragmentModule module;
 
     public void setContext(Context context)
     {
       this.context = context;
     }
 
-    public void setModule(ProgramFragmentModule module)
+    public void setModule(FragmentModule module)
     {
       this.module = module;
     }
 
-    public void setView(ProgramFragmentView view)
+    public void setView(FragmentView view)
     {
 
       this.view = view;
     }
 
-    public ProgramFragmentController(ProgramFragmentView view, ProgramFragmentModule module)
+    public FragmentController(FragmentView view, FragmentModule module)
     {
       this.view = view;
       this.module = module;
@@ -215,18 +215,18 @@ public class ProgramFragment extends Fragment
     }
   }
 
-  public static class ProgramFragmentModule
+  public static class FragmentModule
   {
   }
 
-  public static class ProgramFragmentView
+  public static class FragmentView
   {
     private View view;
     public EditText program;
     public EditText workout;
     public EditText exercise;
 
-    public ProgramFragmentView(View view){
+    public FragmentView(View view){
       this.view = view;
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);

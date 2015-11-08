@@ -37,7 +37,7 @@ public class ExerciseContract
 
     @Override
     public String toString() {
-      return String.format("%s,%s,%s,%s", key, exercise);
+      return String.format("%s,%s", key, exercise);
     }
 
   }
