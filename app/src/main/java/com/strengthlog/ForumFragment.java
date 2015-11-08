@@ -2,6 +2,7 @@ package com.strengthlog;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +16,6 @@ import android.widget.EditText;
 import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
-import com.strengthlog.utils.Logger;
 
 
 /**
@@ -29,6 +29,8 @@ import com.strengthlog.utils.Logger;
 //TODO: Rename fragment to better describe.
 public class ForumFragment extends Fragment
 {
+  private static String tag = ForumFragment.class.getSimpleName();
+
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
@@ -37,9 +39,8 @@ public class ForumFragment extends Fragment
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
-  private ViewsContainer viewsContainer;
   private OnFragmentInteractionListener mListener;
-
+  private ForumFragmentController controller;
   /**
    * Use this factory method to create a new instance of
    * this fragment using the provided parameters.
@@ -81,7 +82,9 @@ public class ForumFragment extends Fragment
   {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_forum, container, false);
-    viewsContainer = new ViewsContainer(view);
+    ForumFragmentView v = new ForumFragmentView(view);
+    ForumFragmentModule module = new ForumFragmentModule();
+    controller = new ForumFragmentController(v, module);
     return view;
   }
 
@@ -145,73 +148,109 @@ public class ForumFragment extends Fragment
     int id = item.getItemId();
 
     if (id == R.id.action_accept) {
-      if (validateInput()){
-        saveInput();
-      }
-      else{
-        Logger.i("ForumFragment", "Input not Valid");
-      }
+      controller.acceptPressed();
     }
 
     return super.onOptionsItemSelected(item);
   }
 
-  private boolean validateInput(){
-    String empty = "";
-    if (viewsContainer.program.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.workout.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.exercise.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.date.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.weight.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.reps.getText().toString().equals(empty)){
-      return false;
-    }
-    if (viewsContainer.sets.getText().toString().equals(empty)){
-      return false;
+  public static class ForumFragmentController
+  {
+    Context context;
+    ForumFragmentView view;
+    ForumFragmentModule module;
+
+    public void setContext(Context context)
+    {
+      this.context = context;
     }
 
-    ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-    DbHelper db = new DbHelper(getActivity());
-    return db.isProgramExists(programEntryHolder);
+    public void setModule(ForumFragmentModule module)
+    {
+      this.module = module;
+    }
+
+    public void setView(ForumFragmentView view)
+    {
+
+      this.view = view;
+    }
+
+    public ForumFragmentController(ForumFragmentView view, ForumFragmentModule module)
+    {
+      this.view = view;
+      this.module = module;
+    }
+
+    public void acceptPressed(){
+      if(validateInput()){
+        saveInput();
+      }
+    }
+
+    private boolean validateInput(){
+      String empty = "";
+      if (view.program.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.workout.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.exercise.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.date.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.weight.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.reps.getText().toString().equals(empty)){
+        return false;
+      }
+      if (view.sets.getText().toString().equals(empty)){
+        return false;
+      }
+
+      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
+      DbHelper db = new DbHelper(context);
+      return db.isProgramExists(programEntryHolder);
+    }
+
+    private ProgramContract.EntryHolder createProgramEntryHolder(){
+      ProgramContract.EntryHolder programEntryHolder = new ProgramContract.EntryHolder();
+      programEntryHolder.program = view.program.getText().toString();
+      programEntryHolder.workout = view.workout.getText().toString();
+      programEntryHolder.exercise = view.exercise.getText().toString();
+      return programEntryHolder;
+    }
+
+    private void saveInput(){
+      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
+
+      LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
+      entryHolder.key = String.valueOf(programEntryHolder.hashCode());
+      entryHolder.date = view.date.getText().toString();
+      entryHolder.weight = Float.parseFloat(view.weight.getText().toString());
+      entryHolder.reps = Integer.parseInt(view.reps.getText().toString());
+      entryHolder.sets = Integer.parseInt(view.sets.getText().toString());
+      entryHolder.comment = view.comment.getText().toString();
+      saveInputToDb(entryHolder);
+    }
+
+    private void saveInputToDb(LogContract.EntryHolder entryHolder){
+      DbHelper db = new DbHelper(context);
+      db.insertLog(entryHolder);
+    }
   }
 
-  private ProgramContract.EntryHolder createProgramEntryHolder(){
-    ProgramContract.EntryHolder programEntryHolder = new ProgramContract.EntryHolder();
-    programEntryHolder.program = viewsContainer.program.getText().toString();
-    programEntryHolder.workout = viewsContainer.workout.getText().toString();
-    programEntryHolder.exercise = viewsContainer.exercise.getText().toString();
-    return programEntryHolder;
+  public static class ForumFragmentModule
+  {
   }
 
-  private void saveInput(){
-    ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-
-    LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
-    entryHolder.key = String.valueOf(programEntryHolder.hashCode());
-    entryHolder.date = viewsContainer.date.getText().toString();
-    entryHolder.weight = Float.parseFloat(viewsContainer.weight.getText().toString());
-    entryHolder.reps = Integer.parseInt(viewsContainer.reps.getText().toString());
-    entryHolder.sets = Integer.parseInt(viewsContainer.sets.getText().toString());
-    entryHolder.comment = viewsContainer.comment.getText().toString();
-    saveInputToDb(entryHolder);
-  }
-
-  private void saveInputToDb(LogContract.EntryHolder entryHolder){
-    DbHelper db = new DbHelper(getActivity());
-    db.insertLog(entryHolder);
-  }
-
-  private class ViewsContainer{
+  public static class ForumFragmentView
+  {
+    private View view;
     public EditText program;
     public EditText workout;
     public EditText exercise;
@@ -221,7 +260,8 @@ public class ForumFragment extends Fragment
     public EditText sets;
     public EditText comment;
 
-    public ViewsContainer(View view){
+    public ForumFragmentView(View view){
+      this.view = view;
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
       exercise = (EditText) view.findViewById(R.id.exercise);
