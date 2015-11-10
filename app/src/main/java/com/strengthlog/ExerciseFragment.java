@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ExerciseContract;
 
 /**
@@ -202,8 +202,7 @@ public class ExerciseFragment extends Fragment
     }
 
     private void saveInputToDb(ExerciseContract.EntryHolder entryHolder){
-      DbHelper db = new DbHelper(context);
-      db.insertExercise(entryHolder);
+      DataBridge.dataBridge.addExercise(entryHolder);
     }
   }
 

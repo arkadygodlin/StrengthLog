@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.dummy.DummyContent;
 
@@ -225,8 +225,7 @@ public class ProgramFragment extends Fragment
     }
 
     private void saveInputToDb(ProgramContract.EntryHolder entryHolder){
-      DbHelper db = new DbHelper(context);
-      db.insertProgram(entryHolder);
+      DataBridge.dataBridge.addProgram(entryHolder);
     }
   }
 

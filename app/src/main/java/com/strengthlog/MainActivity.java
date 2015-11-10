@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.strengthlog.db.DataBridge;
+
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
   ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener,
   ProgramFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener
@@ -35,6 +37,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 
     // Set up the drawer.
     mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+
+    DataBridge.initDataBridge(getApplicationContext());
+    //TODO use this in async Call
+    DataBridge.dataBridge.loadData();
   }
 
   @Override

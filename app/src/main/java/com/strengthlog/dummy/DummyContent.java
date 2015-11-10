@@ -3,7 +3,7 @@ package com.strengthlog.dummy;
 import android.content.Context;
 
 import com.strengthlog.R;
-import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
@@ -34,27 +34,25 @@ public class DummyContent
 
 
   public static void initItems(Context context, String type){
-    DbHelper db = new DbHelper(context);
-
     ITEM_MAP = new HashMap<Integer, DummyItem>();
     ITEMS = new ArrayList<DummyItem>();
 
     if (type.equals(context.getString(R.string.title_section2))){
-      List<LogContract.EntryHolder> entryHolders = db.getAllEntryLogs();
+      List<LogContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.logs.values());
       int i = 0;
       for(LogContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));
       }
     }
     else if (type.equals(context.getString(R.string.title_section3))){
-      List<ProgramContract.EntryHolder> entryHolders = db.getProgramEntries();
+      List<ProgramContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.programs.values());
       int i = 0;
       for(ProgramContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));
       }
     }
     else if (type.equals(context.getString(R.string.title_section6))){
-      List<ExerciseContract.EntryHolder> entryHolders = db.getExerciseEntries();
+      List<ExerciseContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.exercises);
       int i = 0;
       for(ExerciseContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));

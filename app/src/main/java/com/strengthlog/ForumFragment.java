@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.strengthlog.db.sql.DbHelper;
+import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 
@@ -214,8 +214,7 @@ public class ForumFragment extends Fragment
       }
 
       ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-      DbHelper db = new DbHelper(context);
-      boolean reVal = db.isProgramExists(programEntryHolder);
+      boolean reVal = DataBridge.dataBridge.containsProgram(programEntryHolder);
       return reVal;
     }
 
@@ -241,8 +240,7 @@ public class ForumFragment extends Fragment
     }
 
     private void saveInputToDb(LogContract.EntryHolder entryHolder){
-      DbHelper db = new DbHelper(context);
-      db.insertLog(entryHolder);
+      DataBridge.dataBridge.addLog(entryHolder);
     }
   }
 

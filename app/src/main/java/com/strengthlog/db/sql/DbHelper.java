@@ -52,19 +52,19 @@ public class DbHelper extends SQLiteOpenHelper
   }
 
   public long insertLog(LogContract.EntryHolder item)
-{
-  SQLiteDatabase db = this.getWritableDatabase();
-  ContentValues values = new ContentValues();
-  values.put(LogContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
-  values.put(LogContract.Entry.COLUMN_NAME_DATE, item.date);
-  values.put(LogContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
-  values.put(LogContract.Entry.COLUMN_NAME_REPS, item.reps);
-  values.put(LogContract.Entry.COLUMN_NAME_SETS, item.sets);
-  values.put(LogContract.Entry.COLUMN_NAME_COMMENT, item.comment);
-  long retVal = db.insert(LogContract.Entry.TABLE_NAME, null, values);
-  db.close();
-  return retVal;
-}
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(LogContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(LogContract.Entry.COLUMN_NAME_DATE, item.date);
+    values.put(LogContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
+    values.put(LogContract.Entry.COLUMN_NAME_REPS, item.reps);
+    values.put(LogContract.Entry.COLUMN_NAME_SETS, item.sets);
+    values.put(LogContract.Entry.COLUMN_NAME_COMMENT, item.comment);
+    long retVal = db.insert(LogContract.Entry.TABLE_NAME, null, values);
+    db.close();
+    return retVal;
+  }
 
   public List<LogContract.EntryHolder> getAllEntryLogs()
   {

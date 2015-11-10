@@ -40,5 +40,11 @@ public class ExerciseContract
       return String.format("%s,%s", key, exercise);
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+
+      return this.key ==  ((EntryHolder)o).key;
+    }
   }
 }
