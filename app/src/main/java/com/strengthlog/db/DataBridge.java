@@ -7,9 +7,7 @@ import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by agodlin on 3/21/2015.
@@ -22,9 +20,10 @@ public class DataBridge {
   DbHelper sqlDb;
 
   //TODO add wrappers
+  //This are cache members.
   public List<ExerciseContract.EntryHolder> exercises = null;
-  public Map<String, ProgramContract.EntryHolder> programs = null;
-  public Map<String, LogContract.EntryHolder> logs = null;
+  public List<ProgramContract.EntryHolder> programs = null;
+  public List<LogContract.EntryHolder> logs = null;
 
   /*
   should be called once
@@ -51,24 +50,16 @@ public class DataBridge {
   public void loadData(){
     exercises = loadExercises();
 
-    List<ProgramContract.EntryHolder> programsList = loadProgram();
-    programs = new HashMap<>();
-    for(ProgramContract.EntryHolder entry : programsList){
-      programs.put(entry.key, entry);
-    }
+    programs = loadProgram();
 
-    List<LogContract.EntryHolder> logsList = loadLogs();
-    logs = new HashMap<>();
-    for(LogContract.EntryHolder entry : logsList){
-      logs.put(entry.key, entry);
-    }
+    logs = loadLogs();
   }
 
   public boolean addLog(LogContract.EntryHolder entryHolder){
     if (containsLog(entryHolder)){
       return false;
     }
-    logs.put(entryHolder.key, entryHolder);
+    logs.add(entryHolder);
     return sqlDb.insertLog(entryHolder) > 0;
   }
 
@@ -76,7 +67,7 @@ public class DataBridge {
     if (containsProgram(entryHolder)){
       return false;
     }
-    programs.put(entryHolder.key, entryHolder);
+    programs.add(entryHolder);
     return sqlDb.insertProgram(entryHolder) > 0;
   }
 
@@ -89,11 +80,11 @@ public class DataBridge {
   }
 
   public boolean containsProgram(ProgramContract.EntryHolder entryHolder){
-    return programs.containsKey(entryHolder.key);
+    return programs.contains(entryHolder);
   }
 
   public boolean containsLog(LogContract.EntryHolder entryHolder){
-    return logs.containsKey(entryHolder.key);
+    return logs.contains(entryHolder);
   }
 
   public boolean containsExercise(ExerciseContract.EntryHolder entryHolder){

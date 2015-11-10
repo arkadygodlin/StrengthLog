@@ -47,5 +47,12 @@ public class ProgramContract {
       return String.format("%s,%s,%s,%s", key, program, workout, exercise);
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+      if (o == this) return true;
+      return this.program.equals(((EntryHolder)o).program) && this.workout.equals(((EntryHolder)o).workout)
+              && this.exercise.equals(((EntryHolder)o).exercise);
+    }
   }
 }

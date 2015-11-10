@@ -38,14 +38,14 @@ public class DummyContent
     ITEMS = new ArrayList<DummyItem>();
 
     if (type.equals(context.getString(R.string.title_section2))){
-      List<LogContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.logs.values());
+      List<LogContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.logs);
       int i = 0;
       for(LogContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));
       }
     }
     else if (type.equals(context.getString(R.string.title_section3))){
-      List<ProgramContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.programs.values());
+      List<ProgramContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.programs);
       int i = 0;
       for(ProgramContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));

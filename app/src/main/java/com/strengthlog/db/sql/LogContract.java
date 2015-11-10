@@ -56,8 +56,16 @@ public class LogContract {
     }
 
     @Override
-         public String toString() {
+    public String toString() {
       return String.format("%s,%s,%.2f,%d,%d,%s", key, date, weight, reps, sets, comment);
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+      if (o == this) return true;
+      return this.date.equals(((EntryHolder)o).date);
+    }
+
   }
 }

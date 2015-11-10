@@ -47,9 +47,11 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
     item = getLogItem();
     item.date = "9-11-2015";
-    assertFalse(DataBridge.dataBridge.addLog(item));
-    item.key="2";
     assertTrue(DataBridge.dataBridge.addLog(item));
+    assertEquals(DataBridge.dataBridge.logs.size(), 2);
+
+    item = getLogItem();
+    assertFalse(DataBridge.dataBridge.addLog(item));
     assertEquals(DataBridge.dataBridge.logs.size(), 2);
   }
 
@@ -69,25 +71,33 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
     item = getProgramItem();
     item.program = "Linear";
-    assertFalse(DataBridge.dataBridge.addProgram(item));
-    item.key="2";
     assertTrue(DataBridge.dataBridge.addProgram(item));
+    assertEquals(DataBridge.dataBridge.programs.size(), 2);
+
+    item = getProgramItem();
+    assertFalse(DataBridge.dataBridge.addProgram(item));
     assertEquals(DataBridge.dataBridge.programs.size(), 2);
   }
 
-  public void testExercise(){
+  ExerciseContract.EntryHolder getExercise(){
     ExerciseContract.EntryHolder item = new ExerciseContract.EntryHolder();
-    item.key = "1";
     item.exercise = "Bench";
+    return item;
+  }
+
+  public void testExercise(){
+    ExerciseContract.EntryHolder item = getExercise();
+
     assertTrue(DataBridge.dataBridge.addExercise(item));
-    assertFalse(DataBridge.dataBridge.addExercise(item));
-    item = new ExerciseContract.EntryHolder();
-    item.key = "1";
-    item.exercise = "Press";
     assertFalse(DataBridge.dataBridge.addExercise(item));
 
-    item.key="2";
+    item = getExercise();
+    item.exercise = "Press";
     assertTrue(DataBridge.dataBridge.addExercise(item));
+    assertEquals(DataBridge.dataBridge.exercises.size(), 2);
+
+    item = getExercise();
+    assertFalse(DataBridge.dataBridge.addExercise(item));
     assertEquals(DataBridge.dataBridge.exercises.size(), 2);
   }
 }

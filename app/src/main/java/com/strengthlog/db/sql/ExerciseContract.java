@@ -43,8 +43,8 @@ public class ExerciseContract
     @Override
     public boolean equals(Object o)
     {
-
-      return this.key ==  ((EntryHolder)o).key;
+      if (o == this) return true;
+      return this.exercise.equals(((EntryHolder)o).exercise);
     }
   }
 }
