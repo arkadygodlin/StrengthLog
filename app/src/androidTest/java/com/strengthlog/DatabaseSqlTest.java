@@ -48,11 +48,11 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getLogItem();
     item.date = "9-11-2015";
     assertTrue(DataBridge.dataBridge.addLog(item));
-    assertEquals(DataBridge.dataBridge.logs.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.logs.size());
 
     item = getLogItem();
     assertFalse(DataBridge.dataBridge.addLog(item));
-    assertEquals(DataBridge.dataBridge.logs.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.logs.size());
   }
 
   private ProgramContract.EntryHolder getProgramItem() {
@@ -72,11 +72,11 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getProgramItem();
     item.program = "Linear";
     assertTrue(DataBridge.dataBridge.addProgram(item));
-    assertEquals(DataBridge.dataBridge.programs.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.programs.size());
 
     item = getProgramItem();
     assertFalse(DataBridge.dataBridge.addProgram(item));
-    assertEquals(DataBridge.dataBridge.programs.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.programs.size());
   }
 
   ExerciseContract.EntryHolder getExercise(){
@@ -94,10 +94,10 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getExercise();
     item.exercise = "Press";
     assertTrue(DataBridge.dataBridge.addExercise(item));
-    assertEquals(DataBridge.dataBridge.exercises.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.exercises.size());
 
     item = getExercise();
     assertFalse(DataBridge.dataBridge.addExercise(item));
-    assertEquals(DataBridge.dataBridge.exercises.size(), 2);
+    assertEquals(2, DataBridge.dataBridge.exercises.size());
   }
 }

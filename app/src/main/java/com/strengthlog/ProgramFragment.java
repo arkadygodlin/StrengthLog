@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.dummy.DummyContent;
+import com.strengthlog.utils.Logger;
 
 
 /**
@@ -30,6 +31,7 @@ import com.strengthlog.dummy.DummyContent;
  */
 public class ProgramFragment extends Fragment
 {
+  private static String tag = ForumFragment.class.getSimpleName();
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
@@ -205,12 +207,15 @@ public class ProgramFragment extends Fragment
     private boolean validateInput(){
       String empty = "";
       if (view.program.getText().toString().equals(empty)){
+        Logger.d(tag, "program empty");
         return false;
       }
       if (view.workout.getText().toString().equals(empty)){
+        Logger.d(tag, "workout empty");
         return false;
       }
       if (view.exercise.getSelectedItem().toString().equals(empty)){
+        Logger.d(tag, "exercise empty");
         return false;
       }
       return true;
@@ -225,7 +230,9 @@ public class ProgramFragment extends Fragment
     }
 
     private void saveInputToDb(ProgramContract.EntryHolder entryHolder){
-      DataBridge.dataBridge.addProgram(entryHolder);
+      Logger.d(tag, String.format("Calling addProgram with %s", entryHolder.toString()));
+      boolean ret = DataBridge.dataBridge.addProgram(entryHolder);
+      Logger.d(tag, String.format("addExercise returns %b", ret));
     }
   }
 

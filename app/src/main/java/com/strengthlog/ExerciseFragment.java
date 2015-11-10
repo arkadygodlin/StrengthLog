@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ExerciseContract;
+import com.strengthlog.utils.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +27,8 @@ import com.strengthlog.db.sql.ExerciseContract;
  */
 public class ExerciseFragment extends Fragment
 {
+  private static String tag = ForumFragment.class.getSimpleName();
+
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
@@ -190,6 +193,7 @@ public class ExerciseFragment extends Fragment
     private boolean validateInput(){
       String empty = "";
       if (view.exercise.getText().toString().equals(empty)){
+        Logger.d(tag, "exercise empty");
         return false;
       }
       return true;
@@ -202,7 +206,9 @@ public class ExerciseFragment extends Fragment
     }
 
     private void saveInputToDb(ExerciseContract.EntryHolder entryHolder){
-      DataBridge.dataBridge.addExercise(entryHolder);
+      Logger.d(tag, String.format("Calling addExercise with %s", entryHolder.toString()));
+      boolean ret = DataBridge.dataBridge.addExercise(entryHolder);
+      Logger.d(tag, String.format("addExercise returns %b", ret));
     }
   }
 

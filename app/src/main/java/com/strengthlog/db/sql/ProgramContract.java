@@ -44,7 +44,7 @@ public class ProgramContract {
 
     @Override
     public String toString() {
-      return String.format("%s,%s,%s,%s", key, program, workout, exercise);
+      return String.format("%s,%s,%s", program, workout, exercise);
     }
 
     @Override

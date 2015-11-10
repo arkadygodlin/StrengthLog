@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.utils.Logger;
 
 
 /**
@@ -192,29 +193,37 @@ public class ForumFragment extends Fragment
     private boolean validateInput(){
       String empty = "";
       if (view.program.getText().toString().equals(empty)){
+        Logger.d(tag, "program empty");
         return false;
       }
       if (view.workout.getText().toString().equals(empty)){
+        Logger.d(tag, "workout empty");
         return false;
       }
       if (view.exercise.getText().toString().equals(empty)){
+        Logger.d(tag, "exercise empty");
         return false;
       }
       if (view.date.getText().toString().equals(empty)){
+        Logger.d(tag, "date empty");
         return false;
       }
       if (view.weight.getText().toString().equals(empty)){
+        Logger.d(tag, "weight empty");
         return false;
       }
       if (view.reps.getText().toString().equals(empty)){
+        Logger.d(tag, "reps empty");
         return false;
       }
       if (view.sets.getText().toString().equals(empty)){
+        Logger.d(tag, "sets empty");
         return false;
       }
 
       ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
       boolean reVal = DataBridge.dataBridge.containsProgram(programEntryHolder);
+      Logger.d(tag, String.format("containsProgram returns %b", reVal));
       return reVal;
     }
 
@@ -240,7 +249,9 @@ public class ForumFragment extends Fragment
     }
 
     private void saveInputToDb(LogContract.EntryHolder entryHolder){
-      DataBridge.dataBridge.addLog(entryHolder);
+      Logger.d(tag, String.format("Calling addLog with %s", entryHolder.toString()));
+      boolean ret = DataBridge.dataBridge.addLog(entryHolder);
+      Logger.d(tag, String.format("addLog returns %b", ret));
     }
   }
 

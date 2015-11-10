@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.strengthlog.db.DataBridge;
+import com.strengthlog.utils.Logger;
 
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
   ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener,
   ProgramFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener
 {
-
+  private static String tag = ForumFragment.class.getSimpleName();
   /**
    * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
    */
@@ -38,9 +39,11 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     // Set up the drawer.
     mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
 
-    DataBridge.initDataBridge(getApplicationContext());
+    Logger.d(tag, "Creating DataBase");
     //TODO use this in async Call
-    DataBridge.dataBridge.loadData();
+    DataBridge.initDataBridge(getApplicationContext());
+    Logger.d(tag, "Done Loading DataBase");
+
   }
 
   @Override
@@ -50,9 +53,12 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
     FragmentTransaction transaction = getFragmentManager().beginTransaction();
     Fragment newFragment = null;
 
+    Logger.d(tag, String.format("onNavigationDrawerItemSelected : %d", position));
+
     switch (position)
     {
       case 0:
+        //TODO Create Home View
         newFragment = PlaceholderFragment.newInstance(0);
         mTitle = getString(R.string.title_section0);
         break;
@@ -88,6 +94,8 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
 
   public void onSectionAttached(int number)
   {
+
+    Logger.d(tag, String.format("onSectionAttached : %d", number));
     switch (number)
     {
       case 0:

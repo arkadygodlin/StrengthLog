@@ -1,8 +1,8 @@
 package com.strengthlog;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.strengthlog.dummy.DummyContent;
+import com.strengthlog.utils.Logger;
 
 /**
  * A fragment representing a list of Items.
@@ -26,6 +27,7 @@ import com.strengthlog.dummy.DummyContent;
 public class LogHistoryFragment extends Fragment implements AbsListView.OnItemClickListener
 {
 
+  private static String tag = ForumFragment.class.getSimpleName();
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
   private static final String ARG_PARAM1 = "param1";
@@ -80,7 +82,7 @@ public class LogHistoryFragment extends Fragment implements AbsListView.OnItemCl
 
     // TODO: Change Adapter to display your content
 
-
+    Logger.d(tag, String.format("Init DummyContent with param %s", mParam1));
     DummyContent.initItems(getActivity(), mParam1);
     mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
   }

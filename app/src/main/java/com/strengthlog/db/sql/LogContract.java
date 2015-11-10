@@ -57,7 +57,7 @@ public class LogContract {
 
     @Override
     public String toString() {
-      return String.format("%s,%s,%.2f,%d,%d,%s", key, date, weight, reps, sets, comment);
+      return String.format("%s,%.2f,%d,%d,%s", date, weight, reps, sets, comment);
     }
 
     @Override
