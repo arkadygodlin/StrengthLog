@@ -7,6 +7,7 @@ import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -89,6 +90,42 @@ public class DataBridge {
 
   public boolean containsExercise(ExerciseContract.EntryHolder entryHolder){
     return exercises.contains(entryHolder);
+  }
+
+  public List<String> retrievePrograms(){
+    List<String> list = new ArrayList<>();
+    for(ProgramContract.EntryHolder entryHolder : programs){
+      list.add(entryHolder.program);
+    }
+    return list;
+  }
+
+  public List<String> retrieveWorkoutByProgram(String program){
+    List<String> list = new ArrayList<>();
+    for(ProgramContract.EntryHolder entryHolder : programs){
+      if (entryHolder.program.equals(program)){
+        list.add(entryHolder.workout);
+      }
+    }
+    return list;
+  }
+
+  public List<String> retrieveExerciseByProgram(String program, String workout){
+    List<String> list = new ArrayList<>();
+    for(ProgramContract.EntryHolder entryHolder : programs){
+      if (entryHolder.program.equals(program) && entryHolder.workout.equals(workout)){
+        list.add(entryHolder.exercise);
+      }
+    }
+    return list;
+  }
+
+  public List<ProgramContract.EntryHolder> retrieveAllPrograms(){
+    List<ProgramContract.EntryHolder> list = new ArrayList<>();
+    for(ProgramContract.EntryHolder entryHolder : programs){
+      list.add(entryHolder);
+    }
+    return list;
   }
 
   private List<ExerciseContract.EntryHolder> loadExercises(){

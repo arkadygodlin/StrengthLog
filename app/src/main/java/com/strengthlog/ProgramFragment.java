@@ -86,21 +86,9 @@ public class ProgramFragment extends Fragment
     View view = inflater.inflate(R.layout.fragment_program, container, false);
 
     FragmentModule module = new FragmentModule();
-    FragmentView v = new FragmentView(view);
+    FragmentView v = new FragmentView(view, getActivity());
     controller = new FragmentController(v, module);
     controller.setContext(getActivity());
-
-
-    DummyContent.initItems(getActivity(), getString(R.string.title_section6));
-    Spinner spinner = (Spinner) view.findViewById(R.id.exercise);
-    // Create an ArrayAdapter using the string array and a default spinner layout
-
-    ArrayAdapter<DummyContent.DummyItem> adapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(), android.R.layout.simple_spinner_item, DummyContent.ITEMS);
-    // Specify the layout to use when the list of choices appears
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    // Apply the adapter to the spinner
-    spinner.setAdapter(adapter);
-
     return view;
   }
 
@@ -247,11 +235,23 @@ public class ProgramFragment extends Fragment
     public EditText workout;
     public Spinner exercise;
 
-    public FragmentView(View view){
+    public FragmentView(View view, Context context){
       this.view = view;
       program = (EditText) view.findViewById(R.id.program);
       workout = (EditText) view.findViewById(R.id.workout);
       exercise = (Spinner) view.findViewById(R.id.exercise);
+
+
+      DummyContent.initItems(context, context.getString(R.string.title_section6));
+
+      // Create an ArrayAdapter using the string array and a default spinner layout
+
+      ArrayAdapter<DummyContent.DummyItem> adapter = new ArrayAdapter<DummyContent.DummyItem>(context, android.R.layout.simple_spinner_item, DummyContent.ITEMS);
+      // Specify the layout to use when the list of choices appears
+      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      // Apply the adapter to the spinner
+      exercise.setAdapter(adapter);
+
     }
   }
 

@@ -11,12 +11,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.utils.Logger;
+
+import java.util.List;
 
 
 /**
@@ -83,7 +88,7 @@ public class ForumFragment extends Fragment
   {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_forum, container, false);
-    FragmentView v = new FragmentView(view);
+    FragmentView v = new FragmentView(view, getActivity());
     FragmentModule module = new FragmentModule();
     controller = new FragmentController(v, module);
     controller.setContext(getActivity());
@@ -192,16 +197,8 @@ public class ForumFragment extends Fragment
 
     private boolean validateInput(){
       String empty = "";
-      if (view.program.getText().toString().equals(empty)){
+      if (view.program.getSelectedItem().toString().equals(empty)){
         Logger.d(tag, "program empty");
-        return false;
-      }
-      if (view.workout.getText().toString().equals(empty)){
-        Logger.d(tag, "workout empty");
-        return false;
-      }
-      if (view.exercise.getText().toString().equals(empty)){
-        Logger.d(tag, "exercise empty");
         return false;
       }
       if (view.date.getText().toString().equals(empty)){
@@ -221,23 +218,16 @@ public class ForumFragment extends Fragment
         return false;
       }
 
-      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-      boolean reVal = DataBridge.dataBridge.containsProgram(programEntryHolder);
-      Logger.d(tag, String.format("containsProgram returns %b", reVal));
-      return reVal;
+      return true;
     }
 
-    private ProgramContract.EntryHolder createProgramEntryHolder(){
-      ProgramContract.EntryHolder programEntryHolder = new ProgramContract.EntryHolder();
-      programEntryHolder.program = view.program.getText().toString();
-      programEntryHolder.workout = view.workout.getText().toString();
-      programEntryHolder.exercise = view.exercise.getText().toString();
+    private ProgramContract.EntryHolder getSelectedProgram(){
+      ProgramContract.EntryHolder programEntryHolder = (ProgramContract.EntryHolder)view.program.getAdapter().getItem(view.program.getSelectedItemPosition());
       return programEntryHolder;
     }
 
     private void saveInput(){
-      ProgramContract.EntryHolder programEntryHolder = createProgramEntryHolder();
-
+      ProgramContract.EntryHolder programEntryHolder = getSelectedProgram();
       LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
       entryHolder.key = String.valueOf(programEntryHolder.hashCode());
       entryHolder.date = view.date.getText().toString();
@@ -262,26 +252,54 @@ public class ForumFragment extends Fragment
   public static class FragmentView
   {
     private View view;
-    public EditText program;
-    public EditText workout;
-    public EditText exercise;
+    private Context context;
+    public Spinner program;
     public EditText date;
     public EditText weight;
     public EditText reps;
     public EditText sets;
     public EditText comment;
 
-    public FragmentView(View view){
+    public FragmentView(View view, Context context)
+    {
       this.view = view;
-      program = (EditText) view.findViewById(R.id.program);
-      workout = (EditText) view.findViewById(R.id.workout);
-      exercise = (EditText) view.findViewById(R.id.exercise);
+      this.context = context;
+      program = (Spinner) view.findViewById(R.id.program);
       date = (EditText) view.findViewById(R.id.date);
       weight = (EditText) view.findViewById(R.id.weight);
       reps = (EditText) view.findViewById(R.id.reps);
       sets = (EditText) view.findViewById(R.id.sets);
       comment = (EditText) view.findViewById(R.id.comment);
+      setupSpinners();
+    }
+
+    private void setupSpinners(){
+
+      //TODO set spinners and onclick/on select
+      program.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+      {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+        {
+          Logger.d(ForumFragment.tag, String.format("On Item Click"));
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+          Logger.d(ForumFragment.tag, String.format("On Nothing Click"));
+        }
+
+      });
+
+      // Create an ArrayAdapter using the string array and a default spinner layout
+      List<ProgramContract.EntryHolder> items = DataBridge.dataBridge.retrieveAllPrograms();
+      ArrayAdapter<ProgramContract.EntryHolder> adapter = new ArrayAdapter<ProgramContract.EntryHolder>(context, android.R.layout.simple_spinner_item, items);
+      // Specify the layout to use when the list of choices appears
+      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      // Apply the adapter to the spinner
+      program.setAdapter(adapter);
     }
   }
-
 }
