@@ -7,6 +7,7 @@ import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.db.sql.ProgramExerciseContract;
 
 /**
  * Created by agodlin on 4/11/2015.
@@ -60,7 +61,6 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item.key = "1";
     item.program = "Texas";
     item.workout = "A";
-    item.exercise = "Bench";
     return item;
   }
 
@@ -99,5 +99,28 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getExercise();
     assertFalse(DataBridge.dataBridge.addExercise(item));
     assertEquals(2, DataBridge.dataBridge.exercises.size());
+  }
+
+  ProgramExerciseContract.EntryHolder getProgramExercise(){
+    ProgramExerciseContract.EntryHolder item = new ProgramExerciseContract.EntryHolder();
+    item.program = "hash";
+    item.exercise = "Bench";
+    return item;
+  }
+
+  public void testProgramExercise(){
+    ProgramExerciseContract.EntryHolder item = getProgramExercise();
+
+    assertTrue(DataBridge.dataBridge.addProgramExercise(item));
+    assertFalse(DataBridge.dataBridge.addProgramExercise(item));
+
+    item = getProgramExercise();
+    item.exercise = "Press";
+    assertTrue(DataBridge.dataBridge.addProgramExercise(item));
+    assertEquals(2, DataBridge.dataBridge.programExercise.size());
+
+    item = getProgramExercise();
+    assertFalse(DataBridge.dataBridge.addProgramExercise(item));
+    assertEquals(2, DataBridge.dataBridge.programExercise.size());
   }
 }

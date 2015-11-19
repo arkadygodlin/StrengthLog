@@ -6,6 +6,7 @@ import com.strengthlog.db.sql.DbHelper;
 import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.db.sql.ProgramExerciseContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class DataBridge {
   //This are cache members.
   public List<ExerciseContract.EntryHolder> exercises = null;
   public List<ProgramContract.EntryHolder> programs = null;
+  public List<ProgramExerciseContract.EntryHolder> programExercise = null;
   public List<LogContract.EntryHolder> logs = null;
 
   /*
@@ -54,6 +56,8 @@ public class DataBridge {
     programs = loadProgram();
 
     logs = loadLogs();
+
+    programExercise = loadProgramExercise();
   }
 
   public boolean addLog(LogContract.EntryHolder entryHolder){
@@ -80,6 +84,14 @@ public class DataBridge {
     return sqlDb.insertExercise(entryHolder) > 0;
   }
 
+  public boolean addProgramExercise(ProgramExerciseContract.EntryHolder entryHolder){
+    if (containsProgramExercise(entryHolder)){
+      return false;
+    }
+    programExercise.add(entryHolder);
+    return sqlDb.insertProgramExercise(entryHolder) > 0;
+  }
+
   public boolean containsProgram(ProgramContract.EntryHolder entryHolder){
     return programs.contains(entryHolder);
   }
@@ -92,32 +104,8 @@ public class DataBridge {
     return exercises.contains(entryHolder);
   }
 
-  public List<String> retrievePrograms(){
-    List<String> list = new ArrayList<>();
-    for(ProgramContract.EntryHolder entryHolder : programs){
-      list.add(entryHolder.program);
-    }
-    return list;
-  }
-
-  public List<String> retrieveWorkoutByProgram(String program){
-    List<String> list = new ArrayList<>();
-    for(ProgramContract.EntryHolder entryHolder : programs){
-      if (entryHolder.program.equals(program)){
-        list.add(entryHolder.workout);
-      }
-    }
-    return list;
-  }
-
-  public List<String> retrieveExerciseByProgram(String program, String workout){
-    List<String> list = new ArrayList<>();
-    for(ProgramContract.EntryHolder entryHolder : programs){
-      if (entryHolder.program.equals(program) && entryHolder.workout.equals(workout)){
-        list.add(entryHolder.exercise);
-      }
-    }
-    return list;
+  public boolean containsProgramExercise(ProgramExerciseContract.EntryHolder entryHolder){
+    return programExercise.contains(entryHolder);
   }
 
   public List<ProgramContract.EntryHolder> retrieveAllPrograms(){
@@ -134,6 +122,10 @@ public class DataBridge {
 
   private List<ProgramContract.EntryHolder> loadProgram(){
     return sqlDb.getProgramEntries();
+  }
+
+  private List<ProgramExerciseContract.EntryHolder> loadProgramExercise(){
+    return sqlDb.getProgramExerciseEntries();
   }
 
   private List<LogContract.EntryHolder> loadLogs(){

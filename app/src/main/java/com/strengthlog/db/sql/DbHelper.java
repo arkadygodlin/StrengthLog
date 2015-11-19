@@ -29,6 +29,7 @@ public class DbHelper extends SQLiteOpenHelper
     db.execSQL(LogContract.SQL_CREATE_ENTRIES);
     db.execSQL(ProgramContract.SQL_CREATE_ENTRIES);
     db.execSQL(ExerciseContract.SQL_CREATE_ENTRIES);
+    db.execSQL(ProgramExerciseContract.SQL_CREATE_ENTRIES);
   }
 
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -38,6 +39,7 @@ public class DbHelper extends SQLiteOpenHelper
     db.execSQL(LogContract.SQL_DELETE_ENTRIES);
     db.execSQL(ProgramContract.SQL_DELETE_ENTRIES);
     db.execSQL(ExerciseContract.SQL_DELETE_ENTRIES);
+    db.execSQL(ProgramExerciseContract.SQL_DELETE_ENTRIES);
     onCreate(db);
   }
 
@@ -107,7 +109,6 @@ public class DbHelper extends SQLiteOpenHelper
     values.put(ProgramContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(ProgramContract.Entry.COLUMN_NAME_PROGRAM, item.program);
     values.put(ProgramContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
-    values.put(ProgramContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
     long retVal = db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
     db.close();
     return retVal;
@@ -133,7 +134,6 @@ public class DbHelper extends SQLiteOpenHelper
       item.key = cursor.getString(1);
       item.program = cursor.getString(2);
       item.workout = cursor.getString(3);
-      item.exercise = cursor.getString(4);
       workoutData.add(item);
     }
 
@@ -148,9 +148,8 @@ public class DbHelper extends SQLiteOpenHelper
     SQLiteDatabase db = this.getReadableDatabase();
 
     String selection = ProgramContract.Entry.COLUMN_NAME_PROGRAM + " = ?" + " and " +
-                       ProgramContract.Entry.COLUMN_NAME_WORKOUT + " = ?" + " and " +
-                       ProgramContract.Entry.COLUMN_NAME_EXERCISE + " = ?";
-    String[] selectionArgs = {item.program, item.workout, item.exercise};
+                       ProgramContract.Entry.COLUMN_NAME_WORKOUT + " = ?";
+    String[] selectionArgs = {item.program, item.workout};
 
     Cursor cursor = db.query(ProgramContract.Entry.TABLE_NAME,  // The table to query
       null,                                       // The columns to return
@@ -196,6 +195,46 @@ public class DbHelper extends SQLiteOpenHelper
       item = new ExerciseContract.EntryHolder();
       item.key = cursor.getString(1);
       item.exercise = cursor.getString(2);
+      workoutData.add(item);
+    }
+
+    cursor.close();
+    db.close();
+    return workoutData;
+  }
+
+  public long insertProgramExercise(ProgramExerciseContract.EntryHolder item)
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(ProgramExerciseContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(ProgramExerciseContract.Entry.COLUMN_NAME_PROGRAM, item.program);
+    values.put(ProgramExerciseContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
+    long retVal = db.insert(ProgramExerciseContract.Entry.TABLE_NAME, null, values);
+    db.close();
+    return retVal;
+  }
+
+  public List<ProgramExerciseContract.EntryHolder> getProgramExerciseEntries()
+  {
+    List<ProgramExerciseContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(ProgramExerciseContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      null,                                       // The columns for the WHERE clause
+      null,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    ProgramExerciseContract.EntryHolder item;
+    while (cursor.moveToNext())
+    {
+      item = new ProgramExerciseContract.EntryHolder();
+      item.key = cursor.getString(1);
+      item.program = cursor.getString(2);
+      item.exercise = cursor.getString(3);
       workoutData.add(item);
     }
 
