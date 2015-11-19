@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.strengthlog.db.DataBridge;
 import com.strengthlog.db.sql.ProgramContract;
+import com.strengthlog.db.sql.ProgramExerciseContract;
 import com.strengthlog.dummy.DummyContent;
 import com.strengthlog.utils.Logger;
 
@@ -210,15 +211,27 @@ public class ProgramFragment extends Fragment
     }
 
     private void saveInput(){
-      ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
-      entryHolder.program = view.program.getText().toString();
-      entryHolder.workout = view.workout.getText().toString();
-      saveInputToDb(entryHolder);
+      ProgramContract.EntryHolder programentryHolder = new ProgramContract.EntryHolder();
+      programentryHolder.program = view.program.getText().toString();
+      programentryHolder.workout = view.workout.getText().toString();
+
+      ProgramExerciseContract.EntryHolder programExerciseentryHolder = new ProgramExerciseContract.EntryHolder();
+      programExerciseentryHolder.program = view.program.getText().toString() + "_" + view.workout.getText().toString();
+      programExerciseentryHolder.exercise = view.exercise.getSelectedItem().toString();
+
+      saveInputToDb(programentryHolder);
+      saveInputToDb(programExerciseentryHolder);
     }
 
     private void saveInputToDb(ProgramContract.EntryHolder entryHolder){
       Logger.d(tag, String.format("Calling addProgram with %s", entryHolder.toString()));
       boolean ret = DataBridge.dataBridge.addProgram(entryHolder);
+      Logger.d(tag, String.format("addExercise returns %b", ret));
+    }
+
+    private void saveInputToDb(ProgramExerciseContract.EntryHolder entryHolder){
+      Logger.d(tag, String.format("Calling addProgram with %s", entryHolder.toString()));
+      boolean ret = DataBridge.dataBridge.addProgramExercise(entryHolder);
       Logger.d(tag, String.format("addExercise returns %b", ret));
     }
   }

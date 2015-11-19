@@ -40,7 +40,7 @@ public class ProgramContract {
 
     @Override
     public String toString() {
-      return String.format("%s,%s,%s", program, workout);
+      return String.format("%s,%s", program, workout);
     }
 
     @Override

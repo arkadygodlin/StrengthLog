@@ -86,6 +86,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
         mTitle = getString(R.string.title_section6);
         newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
         break;
+      case 7:
+        mTitle = getString(R.string.title_section7);
+        newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
+        break;
       default:
     }
     transaction.replace(R.id.container, newFragment);
