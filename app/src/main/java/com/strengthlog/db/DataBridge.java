@@ -116,6 +116,16 @@ public class DataBridge {
     return list;
   }
 
+  public List<String> retrieveExercises(ProgramContract.EntryHolder holder){
+    List<String> list = new ArrayList<>();
+    for(ProgramExerciseContract.EntryHolder entryHolder : programExercise){
+      String key = holder.program + "_" + holder.workout;
+      if (key.equals(entryHolder.program))
+        list.add(entryHolder.exercise);
+    }
+    return list;
+  }
+
   private List<ExerciseContract.EntryHolder> loadExercises(){
     return sqlDb.getExerciseEntries();
   }

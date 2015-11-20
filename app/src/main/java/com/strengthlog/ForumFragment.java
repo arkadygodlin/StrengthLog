@@ -254,6 +254,7 @@ public class ForumFragment extends Fragment
     private View view;
     private Context context;
     public Spinner program;
+    public Spinner exercise;
     public EditText date;
     public EditText weight;
     public EditText reps;
@@ -265,6 +266,7 @@ public class ForumFragment extends Fragment
       this.view = view;
       this.context = context;
       program = (Spinner) view.findViewById(R.id.program);
+      exercise = (Spinner) view.findViewById(R.id.exercise);
       date = (EditText) view.findViewById(R.id.date);
       weight = (EditText) view.findViewById(R.id.weight);
       reps = (EditText) view.findViewById(R.id.reps);
@@ -283,6 +285,8 @@ public class ForumFragment extends Fragment
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
         {
           Logger.d(ForumFragment.tag, String.format("On Item Click"));
+          ProgramContract.EntryHolder entryHolder = (ProgramContract.EntryHolder)program.getAdapter().getItem(position);
+          updateExerciseSpinner(entryHolder);
         }
 
         @Override
@@ -300,6 +304,15 @@ public class ForumFragment extends Fragment
       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
       // Apply the adapter to the spinner
       program.setAdapter(adapter);
+    }
+
+    private void updateExerciseSpinner(ProgramContract.EntryHolder entryHolder){
+      List<String> items = DataBridge.dataBridge.retrieveExercises(entryHolder);
+      ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, items);
+      // Specify the layout to use when the list of choices appears
+      adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+      // Apply the adapter to the spinner
+      exercise.setAdapter(adapter);
     }
   }
 }
