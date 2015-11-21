@@ -10,7 +10,6 @@ public class ProgramContract {
     "CREATE TABLE " + Entry.TABLE_NAME +
       " (" +
       Entry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-      Entry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
       Entry.COLUMN_NAME_PROGRAM + TEXT_TYPE + COMMA_SEP +
       Entry.COLUMN_NAME_WORKOUT + TEXT_TYPE +
       " )";
@@ -19,13 +18,11 @@ public class ProgramContract {
 
   public static abstract class Entry implements BaseColumns {
     public static final String TABLE_NAME = "program";
-    public static final String COLUMN_NAME_ENTRY_ID = "entryid";
     public static final String COLUMN_NAME_PROGRAM = "program";
     public static final String COLUMN_NAME_WORKOUT = "workout";
   }
 
   public static class EntryHolder {
-    public String key = "";
     public String program = "";
     public String workout = "";
 

@@ -36,7 +36,20 @@ public class DataBridge {
       DataBridge dataBridge = new DataBridge(context);
       DataBridge.dataBridge = dataBridge;
       DataBridge.dataBridge.loadData();
+      DataBridge.dataBridge.addDefaultProgram();
     }
+  }
+
+  private void addDefaultProgram(){
+    ProgramContract.EntryHolder entryHolder = defaultProgram();
+    addProgram(entryHolder);
+  }
+
+  static public ProgramContract.EntryHolder defaultProgram(){
+    ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
+    entryHolder.program = "";
+    entryHolder.workout = "";
+    return entryHolder;
   }
 
   private DataBridge(Context context){
@@ -116,11 +129,21 @@ public class DataBridge {
     return list;
   }
 
+  public List<String> retrieveAllExercise(){
+    List<String> list = new ArrayList<>();
+    for(ExerciseContract.EntryHolder entryHolder : exercises){
+      list.add(entryHolder.exercise);
+    }
+    return list;
+  }
+
   public List<String> retrieveExercises(ProgramContract.EntryHolder holder){
+    if (holder.equals(defaultProgram())){
+      return retrieveAllExercise();
+    }
     List<String> list = new ArrayList<>();
     for(ProgramExerciseContract.EntryHolder entryHolder : programExercise){
-      String key = holder.program + "_" + holder.workout;
-      if (key.equals(entryHolder.program))
+      if (entryHolder.key == holder.hashCode())
         list.add(entryHolder.exercise);
     }
     return list;

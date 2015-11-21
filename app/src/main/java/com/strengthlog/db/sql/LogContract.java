@@ -16,7 +16,7 @@ public class LogContract {
             "CREATE TABLE " + Entry.TABLE_NAME +
             " (" +
             Entry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-            Entry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
+            Entry.COLUMN_NAME_ENTRY_ID + INT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_WEIGHT + FLOAT_TYPE + COMMA_SEP +
             Entry.COLUMN_NAME_REPS + INT_TYPE + COMMA_SEP +
@@ -37,7 +37,7 @@ public class LogContract {
   }
 
   public static class EntryHolder {
-    public String key = "";
+    public int key = 0;
     public String date = "";
     public float weight = 0;
     public int reps = 0;
@@ -46,7 +46,7 @@ public class LogContract {
     public EntryHolder(){}
 
     public EntryHolder(int sets, String date, float weight,
-                       int reps, String key, String comment) {
+                       int reps, int key, String comment) {
       this.sets = sets;
       this.date = date;
       this.weight = weight;

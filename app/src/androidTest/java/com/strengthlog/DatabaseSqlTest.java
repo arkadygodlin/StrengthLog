@@ -32,7 +32,7 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
   private LogContract.EntryHolder getLogItem() {
     LogContract.EntryHolder item = new LogContract.EntryHolder();
-    item.key = "1";
+    item.key = 1;
     item.date = "22-10-2015";
     item.weight = 110;
     item.reps = 3;
@@ -58,7 +58,6 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
   private ProgramContract.EntryHolder getProgramItem() {
     ProgramContract.EntryHolder item = new ProgramContract.EntryHolder();
-    item.key = "1";
     item.program = "Texas";
     item.workout = "A";
     return item;
@@ -72,11 +71,11 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getProgramItem();
     item.program = "Linear";
     assertTrue(DataBridge.dataBridge.addProgram(item));
-    assertEquals(2, DataBridge.dataBridge.programs.size());
+    assertEquals(3, DataBridge.dataBridge.programs.size()); //3 because of default program
 
     item = getProgramItem();
     assertFalse(DataBridge.dataBridge.addProgram(item));
-    assertEquals(2, DataBridge.dataBridge.programs.size());
+    assertEquals(3, DataBridge.dataBridge.programs.size());
   }
 
   ExerciseContract.EntryHolder getExercise(){
@@ -103,7 +102,7 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
   ProgramExerciseContract.EntryHolder getProgramExercise(){
     ProgramExerciseContract.EntryHolder item = new ProgramExerciseContract.EntryHolder();
-    item.program = "hash";
+    item.key = 1;
     item.exercise = "Bench";
     return item;
   }

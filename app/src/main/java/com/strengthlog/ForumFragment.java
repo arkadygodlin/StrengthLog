@@ -229,7 +229,7 @@ public class ForumFragment extends Fragment
     private void saveInput(){
       ProgramContract.EntryHolder programEntryHolder = getSelectedProgram();
       LogContract.EntryHolder entryHolder = new LogContract.EntryHolder();
-      entryHolder.key = String.valueOf(programEntryHolder.hashCode());
+      entryHolder.key = programEntryHolder.hashCode();
       entryHolder.date = view.date.getText().toString();
       entryHolder.weight = Float.parseFloat(view.weight.getText().toString());
       entryHolder.reps = Integer.parseInt(view.reps.getText().toString());

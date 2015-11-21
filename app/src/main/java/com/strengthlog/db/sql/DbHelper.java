@@ -88,7 +88,7 @@ public class DbHelper extends SQLiteOpenHelper
     while (cursor.moveToNext())
     {
       item = new LogContract.EntryHolder();
-      item.key = cursor.getString(1);
+      item.key = cursor.getInt(1);
       item.date = cursor.getString(2);
       item.weight = cursor.getFloat(3);
       item.reps = cursor.getInt(4);
@@ -106,7 +106,6 @@ public class DbHelper extends SQLiteOpenHelper
   {
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
-    values.put(ProgramContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(ProgramContract.Entry.COLUMN_NAME_PROGRAM, item.program);
     values.put(ProgramContract.Entry.COLUMN_NAME_WORKOUT, item.workout);
     long retVal = db.insert(ProgramContract.Entry.TABLE_NAME, null, values);
@@ -131,9 +130,8 @@ public class DbHelper extends SQLiteOpenHelper
     while (cursor.moveToNext())
     {
       item = new ProgramContract.EntryHolder();
-      item.key = cursor.getString(1);
-      item.program = cursor.getString(2);
-      item.workout = cursor.getString(3);
+      item.program = cursor.getString(1);
+      item.workout = cursor.getString(2);
       workoutData.add(item);
     }
 
@@ -169,7 +167,6 @@ public class DbHelper extends SQLiteOpenHelper
   {
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
-    values.put(ExerciseContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(ExerciseContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
     long retVal = db.insert(ExerciseContract.Entry.TABLE_NAME, null, values);
     db.close();
@@ -193,8 +190,7 @@ public class DbHelper extends SQLiteOpenHelper
     while (cursor.moveToNext())
     {
       item = new ExerciseContract.EntryHolder();
-      item.key = cursor.getString(1);
-      item.exercise = cursor.getString(2);
+      item.exercise = cursor.getString(1);
       workoutData.add(item);
     }
 
@@ -208,7 +204,6 @@ public class DbHelper extends SQLiteOpenHelper
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues values = new ContentValues();
     values.put(ProgramExerciseContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
-    values.put(ProgramExerciseContract.Entry.COLUMN_NAME_PROGRAM, item.program);
     values.put(ProgramExerciseContract.Entry.COLUMN_NAME_EXERCISE, item.exercise);
     long retVal = db.insert(ProgramExerciseContract.Entry.TABLE_NAME, null, values);
     db.close();
@@ -232,9 +227,8 @@ public class DbHelper extends SQLiteOpenHelper
     while (cursor.moveToNext())
     {
       item = new ProgramExerciseContract.EntryHolder();
-      item.key = cursor.getString(1);
-      item.program = cursor.getString(2);
-      item.exercise = cursor.getString(3);
+      item.key = cursor.getInt(1);
+      item.exercise = cursor.getString(2);
       workoutData.add(item);
     }
 

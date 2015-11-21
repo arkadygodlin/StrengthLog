@@ -11,7 +11,6 @@ public class ExerciseContract
     "CREATE TABLE " + Entry.TABLE_NAME +
       " (" +
       Entry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-      Entry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
       Entry.COLUMN_NAME_EXERCISE + TEXT_TYPE +
       " )";
 
@@ -19,12 +18,10 @@ public class ExerciseContract
 
   public static abstract class Entry implements BaseColumns {
     public static final String TABLE_NAME = "exercise";
-    public static final String COLUMN_NAME_ENTRY_ID = "entryid";
     public static final String COLUMN_NAME_EXERCISE = "exercise";
   }
 
   public static class EntryHolder {
-    public String key = "";
     public String exercise = "";
 
     @Override
