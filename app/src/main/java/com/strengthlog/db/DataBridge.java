@@ -7,6 +7,7 @@ import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
+import com.strengthlog.db.sql.WeightContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class DataBridge {
   public List<ProgramContract.EntryHolder> programs = null;
   public List<ProgramExerciseContract.EntryHolder> programExercise = null;
   public List<LogContract.EntryHolder> logs = null;
+  public List<WeightContract.EntryHolder> weights = null;
 
   /*
   should be called once
@@ -37,6 +39,7 @@ public class DataBridge {
       DataBridge.dataBridge = dataBridge;
       DataBridge.dataBridge.loadData();
       DataBridge.dataBridge.addDefaultProgram();
+
     }
   }
 
@@ -71,6 +74,8 @@ public class DataBridge {
     logs = loadLogs();
 
     programExercise = loadProgramExercise();
+
+    weights = loadWeigths();
   }
 
   public boolean addLog(LogContract.EntryHolder entryHolder){
@@ -163,5 +168,14 @@ public class DataBridge {
 
   private List<LogContract.EntryHolder> loadLogs(){
     return sqlDb.getAllEntryLogs();
+  }
+
+  private List<WeightContract.EntryHolder> loadWeigths(){
+    return sqlDb.getWeightEntries();
+  }
+
+  public boolean addWeight(WeightContract.EntryHolder entryHolder){
+    weights.add(entryHolder);
+    return sqlDb.insertWeight(entryHolder) > 0;
   }
 }

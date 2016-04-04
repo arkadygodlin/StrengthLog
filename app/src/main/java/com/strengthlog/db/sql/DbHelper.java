@@ -30,6 +30,7 @@ public class DbHelper extends SQLiteOpenHelper
     db.execSQL(ProgramContract.SQL_CREATE_ENTRIES);
     db.execSQL(ExerciseContract.SQL_CREATE_ENTRIES);
     db.execSQL(ProgramExerciseContract.SQL_CREATE_ENTRIES);
+    db.execSQL(WeightContract.SQL_CREATE_ENTRIES);
   }
 
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -40,6 +41,7 @@ public class DbHelper extends SQLiteOpenHelper
     db.execSQL(ProgramContract.SQL_DELETE_ENTRIES);
     db.execSQL(ExerciseContract.SQL_DELETE_ENTRIES);
     db.execSQL(ProgramExerciseContract.SQL_DELETE_ENTRIES);
+    db.execSQL(WeightContract.SQL_DELETE_ENTRIES);
     onCreate(db);
   }
 
@@ -229,6 +231,48 @@ public class DbHelper extends SQLiteOpenHelper
       item = new ProgramExerciseContract.EntryHolder();
       item.key = cursor.getInt(1);
       item.exercise = cursor.getString(2);
+      workoutData.add(item);
+    }
+
+    cursor.close();
+    db.close();
+    return workoutData;
+  }
+
+  public long insertWeight(WeightContract.EntryHolder item)
+  {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put(WeightContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
+    values.put(WeightContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
+    values.put(WeightContract.Entry.COLUMN_NAME_DATE, item.date);
+    values.put(WeightContract.Entry.COLUMN_NAME_Time, item.time);
+    long retVal = db.insert(WeightContract.Entry.TABLE_NAME, null, values);
+    db.close();
+    return retVal;
+  }
+
+  public List<WeightContract.EntryHolder> getWeightEntries()
+  {
+    List<WeightContract.EntryHolder> workoutData = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+
+    Cursor cursor = db.query(WeightContract.Entry.TABLE_NAME,  // The table to query
+      null,                                       // The columns to return
+      null,                                       // The columns for the WHERE clause
+      null,                                       // The values for the WHERE clause
+      null,                                       // don't group the rows
+      null,                                       // don't filter by row groups
+      null                                   // The sort order
+    );
+    WeightContract.EntryHolder item;
+    while (cursor.moveToNext())
+    {
+      item = new WeightContract.EntryHolder();
+      item.key = cursor.getInt(1);
+      item.weight = cursor.getDouble(2);
+      item.date = cursor.getString(3);
+      item.time = cursor.getString(4);
       workoutData.add(item);
     }
 

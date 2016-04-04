@@ -8,6 +8,7 @@ import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
+import com.strengthlog.db.sql.WeightContract;
 
 /**
  * Created by agodlin on 4/11/2015.
@@ -121,5 +122,23 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
     item = getProgramExercise();
     assertFalse(DataBridge.dataBridge.addProgramExercise(item));
     assertEquals(2, DataBridge.dataBridge.programExercise.size());
+  }
+
+  public WeightContract.EntryHolder getWeigth(){
+    WeightContract.EntryHolder entry = new WeightContract.EntryHolder(1, 85.7, "9-11-2015", "8:20");
+    return entry;
+  }
+
+  public void testWeight(){
+    WeightContract.EntryHolder item = getWeigth();
+    assertTrue(DataBridge.dataBridge.addWeight(item));
+    assertEquals(1, DataBridge.dataBridge.weights.size());
+
+    item = getWeigth();
+    item.weight = 90;
+    item.date = "11-11-2015";
+
+    assertTrue(DataBridge.dataBridge.addWeight(item));
+    assertEquals(2, DataBridge.dataBridge.weights.size());
   }
 }
