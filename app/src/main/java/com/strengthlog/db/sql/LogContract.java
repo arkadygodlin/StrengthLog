@@ -2,6 +2,9 @@ package com.strengthlog.db.sql;
 
 import android.provider.BaseColumns;
 
+import com.google.gson.Gson;
+import com.strengthlog.entities.IEntryHolder;
+
 /**
  * Created by agodlin on 10/23/2015.
  */
@@ -36,7 +39,7 @@ public class LogContract {
     public static final String COLUMN_NAME_COMMENT = "comment";
   }
 
-  public static class EntryHolder {
+  public static class EntryHolder extends IEntryHolder {
     public int key = 0;
     public String date = "";
     public float weight = 0;
@@ -65,6 +68,12 @@ public class LogContract {
     {
       if (o == this) return true;
       return this.date.equals(((EntryHolder)o).date);
+    }
+
+    public static LogContract.EntryHolder fromJson(String json){
+      Gson gson = new Gson();
+      LogContract.EntryHolder obj = gson.fromJson(json, LogContract.EntryHolder.class);
+      return obj;
     }
 
   }

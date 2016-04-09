@@ -8,6 +8,7 @@ import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
 import com.strengthlog.db.sql.WeightContract;
+import com.strengthlog.entities.IEntryHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,5 +178,65 @@ public class DataBridge {
   public boolean addWeight(WeightContract.EntryHolder entryHolder){
     weights.add(entryHolder);
     return sqlDb.insertWeight(entryHolder) > 0;
+  }
+
+  public List<String> saveHistory(){
+    List<String> lines = new ArrayList<>();
+
+    lines.add(String.valueOf(weights.size()));
+    for(IEntryHolder entryHolder : weights){
+      lines.add(entryHolder.toJson());
+    }
+
+    lines.add(String.valueOf(programs.size()));
+    for(IEntryHolder entryHolder : programs){
+      lines.add(entryHolder.toJson());
+    }
+
+    lines.add(String.valueOf(exercises.size()));
+    for(IEntryHolder entryHolder : exercises){
+      lines.add(entryHolder.toJson());
+    }
+
+    lines.add(String.valueOf(programExercise.size()));
+    for(IEntryHolder entryHolder : programExercise){
+      lines.add(entryHolder.toJson());
+    }
+
+    lines.add(String.valueOf(logs.size()));
+    for(IEntryHolder entryHolder : logs){
+      lines.add(entryHolder.toJson());
+    }
+
+    return lines;
+  }
+
+  public void loadHistory(List<String> lines){
+    int index = 0;
+
+    int size = Integer.getInteger(lines.get(index++));
+    for(int i = 0 ; i < size ; i++){
+      weights.add(WeightContract.EntryHolder.fromJson(lines.get(index++)));
+    }
+
+    size = Integer.getInteger(lines.get(index++));
+    for(int i = 0 ; i < size ; i++){
+      programs.add(ProgramContract.EntryHolder.fromJson(lines.get(index++)));
+    }
+
+    size = Integer.getInteger(lines.get(index++));
+    for(int i = 0 ; i < size ; i++){
+      exercises.add(ExerciseContract.EntryHolder.fromJson(lines.get(index++)));
+    }
+
+    size = Integer.getInteger(lines.get(index++));
+    for(int i = 0 ; i < size ; i++){
+      programExercise.add(ProgramExerciseContract.EntryHolder.fromJson(lines.get(index++)));
+    }
+
+    size = Integer.getInteger(lines.get(index++));
+    for(int i = 0 ; i < size ; i++){
+      logs.add(LogContract.EntryHolder.fromJson(lines.get(index++)));
+    }
   }
 }

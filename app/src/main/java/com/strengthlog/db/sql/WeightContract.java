@@ -2,6 +2,9 @@ package com.strengthlog.db.sql;
 
 import android.provider.BaseColumns;
 
+import com.google.gson.Gson;
+import com.strengthlog.entities.IEntryHolder;
+
 /**
  * Created by agodlin on 12/27/2015.
  */
@@ -33,7 +36,7 @@ public class WeightContract
     public static final String COLUMN_NAME_Time = "time";
   }
 
-  public static class EntryHolder {
+  public static class EntryHolder extends IEntryHolder {
     public int key = 0;
     public double weight = 0;
     public String date = null;
@@ -59,5 +62,10 @@ public class WeightContract
       return this.date.equals(((EntryHolder) o).date) && this.time.equals(((EntryHolder) o).time);
     }
 
+    public static WeightContract.EntryHolder fromJson(String json){
+      Gson gson = new Gson();
+      WeightContract.EntryHolder obj = gson.fromJson(json, WeightContract.EntryHolder.class);
+      return obj;
+    }
   }
 }

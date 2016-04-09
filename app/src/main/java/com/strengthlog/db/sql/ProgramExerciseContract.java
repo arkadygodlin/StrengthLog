@@ -2,6 +2,9 @@ package com.strengthlog.db.sql;
 
 import android.provider.BaseColumns;
 
+import com.google.gson.Gson;
+import com.strengthlog.entities.IEntryHolder;
+
 public class ProgramExerciseContract
 {
   private static final String TEXT_TYPE = " TEXT";
@@ -24,7 +27,7 @@ public class ProgramExerciseContract
     public static final String COLUMN_NAME_EXERCISE = "exercise";
   }
 
-  public static class EntryHolder {
+  public static class EntryHolder extends IEntryHolder {
     public int key = 0;
     public String exercise = "";
 
@@ -47,6 +50,12 @@ public class ProgramExerciseContract
     {
       if (o == this) return true;
       return this.exercise.equals(((EntryHolder)o).exercise) && this.key == ((EntryHolder)o).key;
+    }
+
+    public static ProgramExerciseContract.EntryHolder fromJson(String json){
+      Gson gson = new Gson();
+      ProgramExerciseContract.EntryHolder obj = gson.fromJson(json, ProgramExerciseContract.EntryHolder.class);
+      return obj;
     }
   }
 }
