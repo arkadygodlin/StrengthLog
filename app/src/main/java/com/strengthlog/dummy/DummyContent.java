@@ -8,6 +8,7 @@ import com.strengthlog.db.sql.ExerciseContract;
 import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
+import com.strengthlog.db.sql.WeightContract;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +64,13 @@ public class DummyContent
       List<ProgramExerciseContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.programExercise);
       int i = 0;
       for(ProgramExerciseContract.EntryHolder entryHolder : entryHolders){
+        addItem(new DummyItem(i, entryHolder.toString()));
+      }
+    }
+    else if (type.equals(context.getString(R.string.title_section8))){
+      List<WeightContract.EntryHolder> entryHolders = new ArrayList<>(DataBridge.dataBridge.weights);
+      int i = 0;
+      for(WeightContract.EntryHolder entryHolder : entryHolders){
         addItem(new DummyItem(i, entryHolder.toString()));
       }
     }
