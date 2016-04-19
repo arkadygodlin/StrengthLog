@@ -5,10 +5,10 @@ package com.strengthlog.db.demo;
  */
 public class DemoData {
 /*
-user program
+user weight
 
 userinfo
-program , start date ? ,end date?
+weight , start date ? ,end date?
 name
 username
 password

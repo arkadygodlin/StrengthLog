@@ -17,7 +17,8 @@ import com.strengthlog.utils.Logger;
 
 public class MainActivity extends Activity implements NavigationDrawerFragment.NavigationDrawerCallbacks,
   ForumFragment.OnFragmentInteractionListener, LogHistoryFragment.OnFragmentInteractionListener,
-  ProgramFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener
+  ProgramFragment.OnFragmentInteractionListener, ExerciseFragment.OnFragmentInteractionListener,
+  WeightFragment.OnFragmentInteractionListener
 {
   private static String tag = ForumFragment.class.getSimpleName();
   /**
@@ -93,6 +94,10 @@ public class MainActivity extends Activity implements NavigationDrawerFragment.N
       case 8:
         mTitle = getString(R.string.title_section8);
         newFragment = LogHistoryFragment.newInstance(mTitle.toString(), "");
+        break;
+      case 9:
+        mTitle = getString(R.string.title_section9);
+        newFragment = WeightFragment.newInstance(mTitle.toString(), "");
         break;
       default:
     }
