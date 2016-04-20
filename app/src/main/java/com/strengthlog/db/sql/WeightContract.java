@@ -22,7 +22,7 @@ public class WeightContract
       Entry.COLUMN_NAME_ENTRY_ID + INT_TYPE + COMMA_SEP +
       Entry.COLUMN_NAME_WEIGHT + FLOAT_TYPE + COMMA_SEP +
       Entry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
-      Entry.COLUMN_NAME_Time + TEXT_TYPE +
+      Entry.COLUMN_NAME_TIME + TEXT_TYPE +
       " )";
 
   public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Entry.TABLE_NAME;
@@ -33,7 +33,7 @@ public class WeightContract
     public static final String COLUMN_NAME_ENTRY_ID = "entryid";
     public static final String COLUMN_NAME_WEIGHT = "weight";
     public static final String COLUMN_NAME_DATE = "date";
-    public static final String COLUMN_NAME_Time = "time";
+    public static final String COLUMN_NAME_TIME = "time";
   }
 
   public static class EntryHolder extends IEntryHolder {

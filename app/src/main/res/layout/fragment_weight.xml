@@ -16,5 +16,17 @@
             android:layout_height="wrap_content"
             android:hint="@string/forum_weight_hint"
             android:inputType="numberDecimal" />
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/forum_date_hint"
+            android:inputType="date" />
+        <EditText
+            android:id="@+id/time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/forum_date_hint"
+            android:inputType="datetime" />
     </LinearLayout>
 </FrameLayout>

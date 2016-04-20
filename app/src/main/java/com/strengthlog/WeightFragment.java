@@ -6,6 +6,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -132,6 +135,27 @@ public class WeightFragment extends Fragment
     void onFragmentInteraction(Uri uri);
   }
 
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.accept_menu, menu);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+  
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item)
+  {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+
+    if (id == R.id.action_accept) {
+      controller.acceptPressed();
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
   public static class FragmentController
   {
     Context context;
@@ -172,12 +196,22 @@ public class WeightFragment extends Fragment
         Logger.d(tag, "weight empty");
         return false;
       }
+      if (view.date.getText().toString().equals(empty)){
+        Logger.d(tag, "date empty");
+        return false;
+      }
+      if (view.time.getText().toString().equals(empty)){
+        Logger.d(tag, "time empty");
+        return false;
+      }
       return true;
     }
 
     private void saveInput(){
       WeightContract.EntryHolder programentryHolder = new WeightContract.EntryHolder();
       programentryHolder.weight = Double.valueOf(view.weight.getText().toString());
+      programentryHolder.date = view.date.getText().toString();
+      programentryHolder.time = view.time.getText().toString();
 
       saveInputToDb(programentryHolder);
     }
@@ -197,10 +231,14 @@ public class WeightFragment extends Fragment
   {
     private View view;
     public EditText weight;
+    public EditText date;
+    public EditText time;
 
     public FragmentView(View view, Context context){
       this.view = view;
       weight = (EditText) view.findViewById(R.id.weight);
+      date = (EditText) view.findViewById(R.id.date);
+      time = (EditText) view.findViewById(R.id.time);
 
     }
   }

@@ -246,7 +246,7 @@ public class DbHelper extends SQLiteOpenHelper
     values.put(WeightContract.Entry.COLUMN_NAME_ENTRY_ID, item.key);
     values.put(WeightContract.Entry.COLUMN_NAME_WEIGHT, item.weight);
     values.put(WeightContract.Entry.COLUMN_NAME_DATE, item.date);
-    values.put(WeightContract.Entry.COLUMN_NAME_Time, item.time);
+    values.put(WeightContract.Entry.COLUMN_NAME_TIME, item.time);
     long retVal = db.insert(WeightContract.Entry.TABLE_NAME, null, values);
     db.close();
     return retVal;
