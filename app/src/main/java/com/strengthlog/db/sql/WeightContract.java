@@ -52,7 +52,7 @@ public class WeightContract
 
     @Override
     public String toString() {
-      return String.format("%.2f", weight);
+      return String.format("%.2f, %s, %s", weight, date, time);
     }
 
     @Override

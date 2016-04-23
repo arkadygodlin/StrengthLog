@@ -19,6 +19,7 @@
     <string name="forum_workout_hint">workout</string>
     <string name="forum_exercise_hint">exercise</string>
     <string name="forum_date_hint">date</string>
+    <string name="forum_time_hint">time</string>
     <string name="forum_weight_hint">weight</string>
     <string name="forum_reps_hint">reps</string>
     <string name="forum_sets_hint">sets</string>

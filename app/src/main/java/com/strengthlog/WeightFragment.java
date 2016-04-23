@@ -76,13 +76,14 @@ public class WeightFragment extends Fragment
       mParam1 = getArguments().getString(ARG_PARAM1);
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
+    setHasOptionsMenu(true);
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
   {
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_forum, container, false);
+    View view = inflater.inflate(R.layout.fragment_weight, container, false);
     FragmentView v = new FragmentView(view, getActivity());
     FragmentModule module = new FragmentModule();
     controller = new FragmentController(v, module);
@@ -201,8 +202,8 @@ public class WeightFragment extends Fragment
         return false;
       }
       if (view.time.getText().toString().equals(empty)){
+        //TODO add NOW time if time is empty.
         Logger.d(tag, "time empty");
-        return false;
       }
       return true;
     }
