@@ -9,6 +9,11 @@ import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
 import com.strengthlog.db.sql.WeightContract;
+import com.strengthlog.utils.Logger;
+import com.strengthlog.utils.Utils;
+import com.strengthlog.utils.VirtualStream;
+
+import java.io.IOException;
 
 /**
  * Created by agodlin on 4/11/2015.
@@ -140,5 +145,42 @@ public class DatabaseSqlTest extends ApplicationTestCase<Application> {
 
     assertTrue(DataBridge.dataBridge.addWeight(item));
     assertEquals(2, DataBridge.dataBridge.weights.size());
+  }
+
+  public void testSaveDataToStream(){
+    testExercise();
+    testWeight();
+    testProgramExercise();
+    testLogAdd();
+    testProgramAdd();
+
+    try
+    {
+      if (!Utils.isExternalStorageWritable()){
+        Logger.e("Test", "No write permissions");
+      }
+
+      VirtualStream.OVirtualStream stream = new VirtualStream.OVirtualStream();
+      stream.open("test.txt");
+
+      DataBridge.dataBridge.save(stream);
+
+      stream.close();
+
+      VirtualStream.IVirtualStream stream2 = new VirtualStream.IVirtualStream();
+      stream2.open("test.txt");
+
+      DataBridge.dataBridge.load(stream2);
+
+      stream2.close();
+
+
+    } catch (IOException e)
+    {
+      e.printStackTrace();
+    } catch (ClassNotFoundException e)
+    {
+      e.printStackTrace();
+    }
   }
 }

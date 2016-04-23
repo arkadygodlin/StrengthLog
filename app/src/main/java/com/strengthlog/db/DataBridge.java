@@ -8,8 +8,9 @@ import com.strengthlog.db.sql.LogContract;
 import com.strengthlog.db.sql.ProgramContract;
 import com.strengthlog.db.sql.ProgramExerciseContract;
 import com.strengthlog.db.sql.WeightContract;
-import com.strengthlog.entities.IEntryHolder;
+import com.strengthlog.utils.VirtualStream;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class DataBridge {
     addProgram(entryHolder);
   }
 
-  static public ProgramContract.EntryHolder defaultProgram(){
+  private static ProgramContract.EntryHolder defaultProgram(){
     ProgramContract.EntryHolder entryHolder = new ProgramContract.EntryHolder();
     entryHolder.program = "";
     entryHolder.workout = "";
@@ -180,63 +181,31 @@ public class DataBridge {
     return sqlDb.insertWeight(entryHolder) > 0;
   }
 
-  public List<String> saveHistory(){
-    List<String> lines = new ArrayList<>();
+  public void save(VirtualStream.OVirtualStream stream) throws IOException
+  {
+    stream.writeArray(exercises);
 
-    lines.add(String.valueOf(weights.size()));
-    for(IEntryHolder entryHolder : weights){
-      lines.add(entryHolder.toJson());
-    }
+    stream.writeArray(programs);
 
-    lines.add(String.valueOf(programs.size()));
-    for(IEntryHolder entryHolder : programs){
-      lines.add(entryHolder.toJson());
-    }
+    stream.writeArray(programExercise);
 
-    lines.add(String.valueOf(exercises.size()));
-    for(IEntryHolder entryHolder : exercises){
-      lines.add(entryHolder.toJson());
-    }
+    stream.writeArray(logs);
 
-    lines.add(String.valueOf(programExercise.size()));
-    for(IEntryHolder entryHolder : programExercise){
-      lines.add(entryHolder.toJson());
-    }
+    stream.writeArray(weights);
 
-    lines.add(String.valueOf(logs.size()));
-    for(IEntryHolder entryHolder : logs){
-      lines.add(entryHolder.toJson());
-    }
-
-    return lines;
   }
 
-  public void loadHistory(List<String> lines){
-    int index = 0;
+  public void load(VirtualStream.IVirtualStream stream) throws IOException, ClassNotFoundException
+  {
+    exercises = stream.readArray();
 
-    int size = Integer.getInteger(lines.get(index++));
-    for(int i = 0 ; i < size ; i++){
-      weights.add(WeightContract.EntryHolder.fromJson(lines.get(index++)));
-    }
+    programs = stream.readArray();
 
-    size = Integer.getInteger(lines.get(index++));
-    for(int i = 0 ; i < size ; i++){
-      programs.add(ProgramContract.EntryHolder.fromJson(lines.get(index++)));
-    }
+    programExercise = stream.readArray();
 
-    size = Integer.getInteger(lines.get(index++));
-    for(int i = 0 ; i < size ; i++){
-      exercises.add(ExerciseContract.EntryHolder.fromJson(lines.get(index++)));
-    }
+    logs = stream.readArray();
 
-    size = Integer.getInteger(lines.get(index++));
-    for(int i = 0 ; i < size ; i++){
-      programExercise.add(ProgramExerciseContract.EntryHolder.fromJson(lines.get(index++)));
-    }
+    weights = stream.readArray();
 
-    size = Integer.getInteger(lines.get(index++));
-    for(int i = 0 ; i < size ; i++){
-      logs.add(LogContract.EntryHolder.fromJson(lines.get(index++)));
-    }
   }
 }

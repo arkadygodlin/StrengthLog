@@ -140,7 +140,7 @@ public class WeightFragment extends Fragment
     inflater.inflate(R.menu.accept_menu, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
-  
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item)
   {

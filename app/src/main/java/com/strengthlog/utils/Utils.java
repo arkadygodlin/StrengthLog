@@ -5,19 +5,12 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import android.util.Xml;
-
-import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by agodlin on 7/1/2015.
@@ -104,48 +97,5 @@ public class Utils
 
   public void saveProgramToFilePrivate(Context context, String program) throws IOException
   {
-
-    String filename = program + ".txt";
-
-    FileOutputStream fos;
-
-    fos = context.openFileOutput(filename, Context.MODE_APPEND);
-
-
-    XmlSerializer serializer = Xml.newSerializer();
-    serializer.setOutput(fos, "UTF-8");
-    serializer.startDocument(null, Boolean.valueOf(true));
-    serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-
-    serializer.startTag(null, "Program");
-
-    List<String> workouts = new ArrayList<>();
-
-    for (String workout : workouts)
-    {
-
-      serializer.startTag(null, "exercise");
-
-      serializer.text(workout);
-
-      serializer.endTag(null, "exercise");
-    }
-    serializer.endDocument();
-
-    serializer.flush();
-
-    fos.close();
-
-    FileInputStream fis = null;
-    InputStreamReader isr = null;
-
-    fis = context.openFileInput(filename);
-    isr = new InputStreamReader(fis);
-    char[] inputBuffer = new char[fis.available()];
-    isr.read(inputBuffer);
-    String data = new String(inputBuffer);
-    isr.close();
-    fis.close();
-
   }
 }
